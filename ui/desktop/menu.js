@@ -52,7 +52,6 @@ module.exports = function(container) {
   levels.setAttribute("text-anchor", 'middle')
   levels.setAttribute('transform', 'translate(' + pointsflat[5][0] + ',' + pointsflat[5][1] + ')rotate(30)')
   levels.style.position = 'absolute'
-  levels.style.transformOrigin = 'center'
   levels.style.cursor = 'pointer'
   levels.innerHTML = 'LEVELS'
   svg.appendChild(levels)
