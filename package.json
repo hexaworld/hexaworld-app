@@ -1,0 +1,34 @@
+{
+  "name": "hexaworld-app",
+  "version": "1.0.0",
+  "description": "web app for hexaworld game and interface",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run watch & npm run server",
+    "server": "nodemon --exec http-server -e js,css,html",
+    "watch": "watchify index.js -o bundle.js",
+    "bundle": "browserify index.js -o bundle.js",
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexaworld/hexaworld-app.git"
+  },
+  "keywords": [
+    "game",
+    "hexagons",
+    "experiment",
+    "maze",
+    "navigation"
+  ],
+  "author": "freeman-lab",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hexaworld/hexaworld-app/issues"
+  },
+  "homepage": "https://github.com/hexaworld/hexaworld-app#readme",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "rune.js": "^0.2.13"
+  }
+}
