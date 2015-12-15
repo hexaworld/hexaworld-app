@@ -1,10 +1,11 @@
 var _ = require('lodash')
+var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
 module.exports = function() {
   var container = document.getElementById('menu-container')
-
   var size = container.clientWidth / 2
+  container.style.display = 'none'
 
   var events = new EventEmitter()
 
@@ -31,10 +32,11 @@ module.exports = function() {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
-  hex.style.fill = 'rgb(55,55,55)'
+  hex.style.fill = 'none'
   hex.style.stroke = 'rgb(150,150,150)'
   hex.style.strokeWidth = '5'
   hex.style.strokeLinejoin = 'round'
+  hex.style.transformOrigin = 'center'
   svg.appendChild(hex)
 
   var levels = document.createElementNS('http://www.w3.org/2000/svg', 'text')
@@ -43,6 +45,8 @@ module.exports = function() {
   levels.setAttribute("font-size", size / 7.5)
   levels.setAttribute("text-anchor", 'middle')
   levels.setAttribute('transform', 'translate(' + pointsflat[5][0] + ',' + pointsflat[5][1] + ')rotate(30)')
+  levels.style.position = 'absolute'
+  levels.style.transformOrigin = 'center'
   levels.innerHTML = 'LEVELS'
   svg.appendChild(levels)
 
@@ -80,11 +84,61 @@ module.exports = function() {
 
   return {
     hide: function() {
-      svg.style.display = 'none'
+      animate({
+        el: hex,
+        opacity: [1, 0],
+        duration: 200,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: levels,
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: about,
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: settings,
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInQuad',
+        complete: function() {
+          container.style.display = 'none'
+        }
+      })
     },
 
     show: function() {
-      svg.style.display = 'block'
+      container.style.display = 'block'
+      animate({
+        el: hex,
+        opacity: [0, 1],
+        duration: 200,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: levels,
+        opacity: [0, 1],
+        duration: 300,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: about,
+        opacity: [0, 1],
+        duration: 400,
+        easing: 'easeInQuad'
+      })
+      animate({
+        el: settings,
+        opacity: [0, 1],
+        duration: 500,
+        easing: 'easeInQuad'
+      })
     },
 
     events: events

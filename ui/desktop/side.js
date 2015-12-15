@@ -1,10 +1,11 @@
 var _ = require('lodash')
+var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
 module.exports = function() {
   var container = document.getElementById('side')
-
   var size = container.clientWidth / 2
+  container.style.display = 'none'
 
   var events = new EventEmitter()
 
@@ -26,6 +27,7 @@ module.exports = function() {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
+  hex.style.cursor = 'pointer'
   hex.style.fill = 'rgb(55,55,55)'
   hex.style.stroke = 'rgb(155,155,155)'
   hex.style.strokeWidth = '5'
@@ -33,7 +35,7 @@ module.exports = function() {
   svg.appendChild(hex)
 
   var menu = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  menu.setAttribute("class", 'menu')
+  menu.setAttribute("class", 'menu noclick')
   menu.setAttribute("fill", 'rgb(200,200,200)')
   menu.setAttribute("font-size", size / 16)
   menu.setAttribute("text-anchor", 'middle')
@@ -43,17 +45,41 @@ module.exports = function() {
   menu.setAttribute('transform', 'translate(' + size/40 + ',' + size/2 + ')rotate(-90)')
   svg.appendChild(menu)
 
-  menu.onclick = function() {
+  hex.onclick = function() {
     events.emit('click', true)
   }
 
   return {
     hide: function() {
-      svg.style.display = 'none'
+      animate({
+        el: hex,
+        translateX: [0, -100],
+        duration: 200,
+        easing: 'easeInCirc'
+      })
+      animate({
+        el: menu,
+        opacity: [1, 0],
+        duration: 400
+      })
     },
 
     show: function() {
-      svg.style.display = 'block'
+      container.style.display = 'block'
+      animate({
+        el: hex,
+        translateX: [-100, 0],
+        duration: 200,
+        easing: 'easeInCirc',
+        complete: function() {
+          animate({
+            el: menu,
+            opacity: [0, 1],
+            duration: 200
+          })
+        }
+      })
+      
     },
 
     events: events

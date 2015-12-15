@@ -1,7 +1,8 @@
 var _ = require('lodash')
 
 module.exports = function() {
-  var container = document.getElementById('menu-container')
+  var container = document.getElementById('about-container')
+  container.style.display = 'none'
 
   var about = document.createElement('div')
   about.innerHTML = 'about'
@@ -9,11 +10,11 @@ module.exports = function() {
 
   return {
     hide: function() {
-      about.style.display = 'none'
+      container.style.display = 'none'
     },
 
     show: function() {
-      about.style.display = 'block'
+      container.style.display = 'block'
     }
   }
 

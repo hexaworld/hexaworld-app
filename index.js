@@ -30,18 +30,16 @@ var level = {
 }
 
 var menu = require('./ui/desktop/menu.js')()
-var game = require('./ui/desktop/game.js')()
 var side = require('./ui/desktop/side.js')()
 var about = require('./ui/desktop/about.js')()
+var game = require('./ui/desktop/game.js')()
 var settings = require('./ui/desktop/settings.js')()
 var levels = require('./ui/desktop/levels.js')()
 
-menu.hide()
-about.hide()
-settings.hide()
-levels.hide()
-
+menu.show()
 game.load(level)
+game.hide()
+side.hide()
 
 side.events.on('click', function() {
   side.hide()

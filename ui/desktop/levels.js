@@ -1,19 +1,150 @@
 var _ = require('lodash')
+var animate = require('animateplus')
+
+function drawhex(size) {
+  var points = _.range(7).map(function (i) {
+    var dx = size * Math.cos(i * 2 * Math.PI / 6 + Math.PI / 6) + size
+    var dy = size * Math.sin(i * 2 * Math.PI / 6 + Math.PI / 6) + size
+    return [dx, dy]
+  })
+
+  return points
+}
 
 module.exports = function() {
-  var container = document.getElementById('menu-container')
+  var container = document.getElementById('levels-container')
+  var size = container.clientWidth
+  container.style.display = 'none'
+  
+  var points = drawhex(0.05 * size)
 
-  var levels = document.createElement('div')
-  levels.innerHTML = 'levels'
-  container.appendChild(levels)
+  var name = document.createElement('div')
+  name.className = 'h1'
+  name.style.position = 'absolute'
+  name.style.top = size * 0.06
+  name.style.left = size * 0.08
+  name.style.fontSize = size * 0.055
+  name.innerHTML = 'LEVELNAME'
+  container.appendChild(name)
+
+  var moves = document.createElement('div')
+  moves.className = 'h2'
+  moves.style.position = 'absolute'
+  moves.style.top = size * 0.18
+  moves.style.left = size * 0.08
+  moves.style.fontSize = size * 0.03
+  moves.innerHTML = 'moves '
+  container.appendChild(moves)
+
+  var movecount = document.createElement('span')
+  movecount.className = 'h2-value'
+  movecount.innerHTML = '6'
+  moves.appendChild(movecount)
+
+  var lives = document.createElement('div')
+  lives.className = 'h2'
+  lives.style.position = 'absolute'
+  lives.style.top = size * 0.23
+  lives.style.left = size * 0.08
+  lives.style.fontSize = size * 0.03
+  lives.innerHTML = 'lives '
+  container.appendChild(lives)
+
+  var livescount = document.createElement('span')
+  livescount.className = 'h2-value'
+  livescount.innerHTML = '3'
+  lives.appendChild(livescount)
+
+  var score = document.createElement('div')
+  score.className = 'h2'
+  score.style.position = 'absolute'
+  score.style.top = size * 0.28
+  score.style.left = size * 0.08
+  score.style.fontSize = size * 0.03
+  score.innerHTML = 'best score '
+  container.appendChild(score)
+
+  var scoreval = document.createElement('span')
+  scoreval.className = 'h2-value'
+  scoreval.innerHTML = '10000'
+  score.appendChild(scoreval)
+
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  svg.setAttribute('width', size * 0.1)
+  svg.setAttribute('height', size * 0.1)
+  svg.style.position = 'relative'
+  svg.style.display = 'block'
+  svg.style.top = size * 0.4
+  svg.style.left = size * 0.08
+  container.appendChild(svg)
+
+  var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+  play.setAttribute("points", points.join(' '))
+  play.style.fill = 'none'
+  play.style.stroke = 'rgb(240,240,240)'
+  play.style.strokeWidth = '4'
+  play.style.strokeLinejoin = 'round'
+  play.style.transformOrigin = 'center'
+  svg.appendChild(play)
+
+  var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+  playlabel.setAttribute("fill", 'rgb(200,200,200)')
+  playlabel.setAttribute("font-size", size * 0.025)
+  playlabel.setAttribute("text-anchor", 'middle')
+  playlabel.setAttribute("dominant-baseline", 'middle')
+  playlabel.setAttribute('transform', 'translate(' + 0.05 * size + ',' + 0.05 * size + ')')
+  playlabel.innerHTML = 'PLAY'
+  svg.appendChild(playlabel)
+
+  var levelgroup = document.createElement('div')
+  levelgroup.style.left = size * 0.5
+  levelgroup.style.top = size * 0.08
+  levelgroup.style.width = size * 0.45
+  levelgroup.style.position = 'absolute'
+  container.appendChild(levelgroup)
+
+  _.range(12).forEach(function (i) {
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.setAttribute('width', size * 0.1)
+    svg.setAttribute('height', size * 0.1)
+    svg.style.position = 'relative'
+    svg.style.display = 'inline'
+    svg.style.marginRight = size * 0.02
+    svg.style.marginBottom = size * 0.02
+    levelgroup.appendChild(svg)
+
+    var tmp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+    tmp.setAttribute("points", points.join(' '))
+    tmp.style.fill = 'none'
+    tmp.style.stroke = 'rgb(240,240,240)'
+    tmp.style.strokeWidth = '4'
+    tmp.style.strokeLinejoin = 'round'
+    tmp.style.transformOrigin = 'center'
+    svg.appendChild(tmp)
+  })
 
   return {
     hide: function() {
-      levels.style.display = 'none'
+      animate({
+        el: container,
+        opacity: [1, 0],
+        duration: 300,
+        easing: 'easeInQuad',
+        complete: function() {
+          container.style.display = 'none'
+        }
+      })
     },
 
     show: function() {
-      levels.style.display = 'block'
+      console.log('we got here')
+      container.style.display = 'block'
+      animate({
+        el: container,
+        opacity: [0, 1],
+        duration: 300,
+        easing: 'easeInQuad'
+      })
     }
   }
 

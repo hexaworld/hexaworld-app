@@ -10,7 +10,6 @@ module.exports = function() {
     },
 
     hide: function() {
-      console.log('hiding')
       document.getElementById('game-container').style.display = 'none'
     },
 
