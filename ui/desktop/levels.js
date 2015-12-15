@@ -1,5 +1,6 @@
 var _ = require('lodash')
 var animate = require('animateplus')
+var EventEmitter = require('events').EventEmitter
 
 function hexsvg(size) {
   var points = _.range(7).map(function (i) {
@@ -14,6 +15,9 @@ module.exports = function(set) {
   var container = document.getElementById('levels-container')
   var size = container.clientWidth
   container.style.display = 'none'
+
+  var selected = 0
+  var events = new EventEmitter()
 
   var name = document.createElement('div')
   name.className = 'h1'
@@ -125,36 +129,40 @@ module.exports = function(set) {
     hex.style.cursor = 'pointer'
     svg.appendChild(hex)
 
-    hex.onclick = function(item) {
+    function update() {
+      name.innerHTML = set[selected].config.name
+      livesval.innerHTML = set[selected].config.lives
+      movesval.innerHTML = set[selected].config.steps
+      scoreval.innerHTML = 0
       var items = document.getElementsByClassName('level-hex')
-      var id = item.srcElement.getAttribute('data-id')
       _.range(items.length).forEach( function(i) {
-        if (i !== id) 
-          document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(55,55,55)')
+        document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(55,55,55)')
       })
-      
       animate({
-        el: hex,
+        el: document.getElementById('level-hex-' + selected),
         fill: ['rgb(55,55,55)', 'rgb(100,100,100)'],
         duration: 150,
         easing: 'easeInQuad'
       })
-      name.innerHTML = set[i].config.name
-      livesval.innerHTML = set[i].config.lives
-      movesval.innerHTML = set[i].config.steps
-      scoreval.innerHTML = 0
+
+    }
+
+    update()
+
+    hex.onclick = function(item) {
+      var id = item.srcElement.getAttribute('data-id')
       selected = id
+      update()
     }
 
     play.onclick = function(item) {
-      console.log('clicked play')
-      console.log(play)
       animate({
         el: play,
         fill: ['rgb(100,100,100)', 'rgb(55,55,55)'],
         duration: 300,
         easing: 'easeInQuad'
       })
+      events.emit('click', selected)
     }
 
   })
@@ -181,7 +189,9 @@ module.exports = function(set) {
         duration: 300,
         easing: 'easeInQuad'
       })
-    }
+    },
+
+    events: events
   }
 
 }
