@@ -6,13 +6,12 @@ module.exports = function (container, set) {
 
   var menu = require('./ui/desktop/menu.js')(container)
   var side = require('./ui/desktop/side.js')(container)
-  var game = require('./ui/desktop/game.js')(container)
   var about = require('./ui/desktop/about.js')(container)
   var settings = require('./ui/desktop/settings.js')(container)
   var levels = require('./ui/desktop/levels.js')(container, set)
+  var game = require('./ui/desktop/game.js')(container, set[0])
 
   menu.show()
-  game.init(set[0])
 
   side.events.on('click', function() {
     side.hide()

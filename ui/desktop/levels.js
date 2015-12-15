@@ -18,7 +18,7 @@ module.exports = function(container, set) {
   wrapper.style.left = 0
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'
-  wrapper.style.position = 'relative'
+  wrapper.style.position = 'absolute'
   container.appendChild(wrapper)
 
   var size = wrapper.clientWidth

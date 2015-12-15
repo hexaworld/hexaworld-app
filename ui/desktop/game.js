@@ -1,7 +1,7 @@
 var hexaworld = require('hexaworld/play.js')
 var animate = require('animateplus')
 
-module.exports = function() {
+module.exports = function(container, level) {
   var wrapper = document.createElement('div')
   wrapper.style.width = '100%'
   wrapper.style.height = '100%'
@@ -14,19 +14,18 @@ module.exports = function() {
   game.style.width = '35%'
   game.style.height = '100%'
   game.style.margin = '0 auto'
+  game.style.position = 'absolute'
   wrapper.appendChild(game)
 
-  var play
+  var play = hexaworld('game-container', level)
+
+  wrapper.style.display = 'none'
 
   return {
-    init: function (level) {
-      play = hexaworld('game-container', level)
-      wrapper.style.display = 'none'
-    },
+    events: play.events,
 
-    reload: function (level) {
-      console.log('reloading')
-      play.reload(level)
+    reload: function (updated) {
+      play.reload(updated)
     },
 
     hide: function() {
