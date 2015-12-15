@@ -162,7 +162,7 @@ module.exports = function(container, set) {
     update()
 
     hex.onclick = function(item) {
-      var id = item.srcElement.getAttribute('data-id')
+      var id = item.target.getAttribute('data-id')
       selected = id
       update()
     }
