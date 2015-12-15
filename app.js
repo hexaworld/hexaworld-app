@@ -1,8 +1,6 @@
 var _ = require('lodash')
 
-var set = require('./set.js')
-
-module.exports = function (container) {
+module.exports = function (container, set) {
 
   var container = document.getElementById('container')
 
