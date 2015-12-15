@@ -75,11 +75,13 @@ body {
 
 .h1 {
 	font-family: Hack;
+	text-transform: uppercase;
 	color: white;
 }
 
 .h2 {
 	font-family: Hack;
+	text-transform: 'uppercase';
 	color: rgb(200,200,200);
 }
 

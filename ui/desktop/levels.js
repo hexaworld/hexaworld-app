@@ -1,22 +1,19 @@
 var _ = require('lodash')
 var animate = require('animateplus')
 
-function drawhex(size) {
+function hexsvg(size) {
   var points = _.range(7).map(function (i) {
     var dx = size * Math.cos(i * 2 * Math.PI / 6 + Math.PI / 6) + size
     var dy = size * Math.sin(i * 2 * Math.PI / 6 + Math.PI / 6) + size
     return [dx, dy]
   })
-
-  return points
+  return points.join(' ')
 }
 
-module.exports = function() {
+module.exports = function(set) {
   var container = document.getElementById('levels-container')
   var size = container.clientWidth
   container.style.display = 'none'
-  
-  var points = drawhex(0.05 * size)
 
   var name = document.createElement('div')
   name.className = 'h1'
@@ -36,10 +33,10 @@ module.exports = function() {
   moves.innerHTML = 'moves '
   container.appendChild(moves)
 
-  var movecount = document.createElement('span')
-  movecount.className = 'h2-value'
-  movecount.innerHTML = '6'
-  moves.appendChild(movecount)
+  var movesval = document.createElement('span')
+  movesval.className = 'h2-value'
+  movesval.innerHTML = '6'
+  moves.appendChild(movesval)
 
   var lives = document.createElement('div')
   lives.className = 'h2'
@@ -50,10 +47,10 @@ module.exports = function() {
   lives.innerHTML = 'lives '
   container.appendChild(lives)
 
-  var livescount = document.createElement('span')
-  livescount.className = 'h2-value'
-  livescount.innerHTML = '3'
-  lives.appendChild(livescount)
+  var livesval = document.createElement('span')
+  livesval.className = 'h2-value'
+  livesval.innerHTML = '3'
+  lives.appendChild(livesval)
 
   var score = document.createElement('div')
   score.className = 'h2'
@@ -79,12 +76,13 @@ module.exports = function() {
   container.appendChild(svg)
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-  play.setAttribute("points", points.join(' '))
-  play.style.fill = 'none'
+  play.setAttribute("points", hexsvg(0.05 * size))
+  play.setAttribute("fill", 'rgb(55,55,55)')
   play.style.stroke = 'rgb(240,240,240)'
   play.style.strokeWidth = '4'
   play.style.strokeLinejoin = 'round'
   play.style.transformOrigin = 'center'
+  play.style.cursor = 'pointer'
   svg.appendChild(play)
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
@@ -93,34 +91,72 @@ module.exports = function() {
   playlabel.setAttribute("text-anchor", 'middle')
   playlabel.setAttribute("dominant-baseline", 'middle')
   playlabel.setAttribute('transform', 'translate(' + 0.05 * size + ',' + 0.05 * size + ')')
+  playlabel.style.pointerEvents = 'none'
   playlabel.innerHTML = 'PLAY'
   svg.appendChild(playlabel)
 
   var levelgroup = document.createElement('div')
   levelgroup.style.left = size * 0.5
-  levelgroup.style.top = size * 0.08
+  levelgroup.style.top = size * 0.07
   levelgroup.style.width = size * 0.45
   levelgroup.style.position = 'absolute'
   container.appendChild(levelgroup)
 
-  _.range(12).forEach(function (i) {
+  _.range(set.length).forEach(function (i) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('width', size * 0.1)
-    svg.setAttribute('height', size * 0.1)
+    svg.setAttribute('width', size * 0.11)
+    svg.setAttribute('height', size * 0.11)
     svg.style.position = 'relative'
     svg.style.display = 'inline'
     svg.style.marginRight = size * 0.02
     svg.style.marginBottom = size * 0.02
     levelgroup.appendChild(svg)
 
-    var tmp = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-    tmp.setAttribute("points", points.join(' '))
-    tmp.style.fill = 'none'
-    tmp.style.stroke = 'rgb(240,240,240)'
-    tmp.style.strokeWidth = '4'
-    tmp.style.strokeLinejoin = 'round'
-    tmp.style.transformOrigin = 'center'
-    svg.appendChild(tmp)
+    var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+    hex.setAttribute("points", hexsvg(0.055 * size))
+    hex.setAttribute('data-id', i)
+    hex.setAttribute('class', 'level-hex')
+    hex.setAttribute('fill', 'rgb(55,55,55)')
+    hex.id = 'level-hex-' + i
+    hex.style.stroke = 'rgb(240,240,240)'
+    hex.style.strokeWidth = '4'
+    hex.style.strokeLinejoin = 'round'
+    hex.style.transformOrigin = 'center'
+    hex.style.cursor = 'pointer'
+    svg.appendChild(hex)
+
+    hex.onclick = function(item) {
+      var items = document.getElementsByClassName('level-hex')
+      var id = item.srcElement.getAttribute('data-id')
+      _.range(items.length).forEach( function(i) {
+        if (i !== id) 
+          document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(55,55,55)')
+      })
+      
+      animate({
+        el: hex,
+        fill: ['rgb(55,55,55)', 'rgb(100,100,100)'],
+        duration: 150,
+        easing: 'easeInQuad'
+      })
+      name.innerHTML = set[i].config.name
+      livesval.innerHTML = set[i].config.lives
+      movesval.innerHTML = set[i].config.steps
+      scoreval.innerHTML = 0
+      selected = id
+    }
+
+    play.onclick = function(item) {
+      console.log('clicked play')
+      console.log(play)
+      animate({
+        el: play,
+        fill: ['rgb(100,100,100)', 'rgb(55,55,55)'],
+        duration: 300,
+        easing: 'easeInQuad'
+      })
+    }
+
   })
 
   return {
