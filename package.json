@@ -30,7 +30,6 @@
   "dependencies": {
     "animateplus": "^1.3.2",
     "lodash": "^3.10.1",
-    "randomword": "^0.1.3",
-    "rune.js": "^0.2.13"
+    "randomword": "^0.1.3"
   }
 }
