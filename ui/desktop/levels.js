@@ -11,10 +11,18 @@ function hexsvg(size) {
   return points.join(' ')
 }
 
-module.exports = function(set) {
-  var container = document.getElementById('levels-container')
-  var size = container.clientWidth
-  container.style.display = 'none'
+module.exports = function(container, set) {
+  var wrapper = document.createElement('div')
+  wrapper.style.width = '85%'
+  wrapper.style.height = '100%'
+  wrapper.style.left = 0
+  wrapper.style.right = 0
+  wrapper.style.margin = '0 auto'
+  wrapper.style.position = 'relative'
+  container.appendChild(wrapper)
+
+  var size = wrapper.clientWidth
+  wrapper.style.display = 'none'
 
   var selected = 0
   var events = new EventEmitter()
@@ -23,19 +31,21 @@ module.exports = function(set) {
   name.className = 'h1'
   name.style.position = 'absolute'
   name.style.top = size * 0.06
-  name.style.left = size * 0.08
+  name.style.left = size * 0.1
   name.style.fontSize = size * 0.055
+  name.style.textTransform = 'uppercase'
   name.innerHTML = 'LEVELNAME'
-  container.appendChild(name)
+  wrapper.appendChild(name)
 
   var moves = document.createElement('div')
   moves.className = 'h2'
   moves.style.position = 'absolute'
   moves.style.top = size * 0.18
-  moves.style.left = size * 0.08
+  moves.style.left = size * 0.1
   moves.style.fontSize = size * 0.03
   moves.innerHTML = 'moves '
-  container.appendChild(moves)
+  moves.style.color = 'rgb(150,150,150)'
+  wrapper.appendChild(moves)
 
   var movesval = document.createElement('span')
   movesval.className = 'h2-value'
@@ -46,10 +56,11 @@ module.exports = function(set) {
   lives.className = 'h2'
   lives.style.position = 'absolute'
   lives.style.top = size * 0.23
-  lives.style.left = size * 0.08
+  lives.style.left = size * 0.1
   lives.style.fontSize = size * 0.03
+  lives.style.color = 'rgb(150,150,150)'
   lives.innerHTML = 'lives '
-  container.appendChild(lives)
+  wrapper.appendChild(lives)
 
   var livesval = document.createElement('span')
   livesval.className = 'h2-value'
@@ -60,10 +71,11 @@ module.exports = function(set) {
   score.className = 'h2'
   score.style.position = 'absolute'
   score.style.top = size * 0.28
-  score.style.left = size * 0.08
+  score.style.left = size * 0.1
   score.style.fontSize = size * 0.03
+  score.style.color = 'rgb(150,150,150)'
   score.innerHTML = 'best score '
-  container.appendChild(score)
+  wrapper.appendChild(score)
 
   var scoreval = document.createElement('span')
   scoreval.className = 'h2-value'
@@ -76,8 +88,8 @@ module.exports = function(set) {
   svg.style.position = 'relative'
   svg.style.display = 'block'
   svg.style.top = size * 0.4
-  svg.style.left = size * 0.08
-  container.appendChild(svg)
+  svg.style.left = size * 0.1
+  wrapper.appendChild(svg)
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   play.setAttribute("points", hexsvg(0.05 * size))
@@ -104,20 +116,20 @@ module.exports = function(set) {
   levelgroup.style.top = size * 0.07
   levelgroup.style.width = size * 0.45
   levelgroup.style.position = 'absolute'
-  container.appendChild(levelgroup)
+  wrapper.appendChild(levelgroup)
 
   _.range(set.length).forEach(function (i) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('width', size * 0.11)
-    svg.setAttribute('height', size * 0.11)
+    svg.setAttribute('width', size * 0.1)
+    svg.setAttribute('height', size * 0.1)
     svg.style.position = 'relative'
     svg.style.display = 'inline'
-    svg.style.marginRight = size * 0.02
+    svg.style.marginRight = size * 0.025
     svg.style.marginBottom = size * 0.02
     levelgroup.appendChild(svg)
 
     var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-    hex.setAttribute("points", hexsvg(0.055 * size))
+    hex.setAttribute("points", hexsvg(0.05 * size))
     hex.setAttribute('data-id', i)
     hex.setAttribute('class', 'level-hex')
     hex.setAttribute('fill', 'rgb(55,55,55)')
@@ -170,21 +182,21 @@ module.exports = function(set) {
   return {
     hide: function() {
       animate({
-        el: container,
+        el: wrapper,
         opacity: [1, 0],
         duration: 300,
         easing: 'easeInQuad',
         complete: function() {
-          container.style.display = 'none'
+          wrapper.style.display = 'none'
         }
       })
     },
 
     show: function() {
       console.log('we got here')
-      container.style.display = 'block'
+      wrapper.style.display = 'block'
       animate({
-        el: container,
+        el: wrapper,
         opacity: [0, 1],
         duration: 300,
         easing: 'easeInQuad'

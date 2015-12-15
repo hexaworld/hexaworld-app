@@ -2,13 +2,26 @@ var hexaworld = require('hexaworld/play.js')
 var animate = require('animateplus')
 
 module.exports = function() {
+  var wrapper = document.createElement('div')
+  wrapper.style.width = '100%'
+  wrapper.style.height = '100%'
+  wrapper.style.position = 'absolute'
+  wrapper.style.pointerEvents = 'none'
+  container.appendChild(wrapper)
+
+  var game = document.createElement('div')
+  game.id = 'game-container'
+  game.style.width = '35%'
+  game.style.height = '100%'
+  game.style.margin = '0 auto'
+  wrapper.appendChild(game)
+
   var play
-  container = document.getElementById('game-container')
 
   return {
     init: function (level) {
       play = hexaworld('game-container', level)
-      container.style.display = 'none'
+      wrapper.style.display = 'none'
     },
 
     reload: function (level) {
@@ -19,12 +32,12 @@ module.exports = function() {
     hide: function() {
       play.pause()
       animate({
-        el: container,
+        el: wrapper,
         opacity: [1, 0],
         duration: 300,
         easing: 'easeInQuad',
         complete: function() {
-          container.style.display = 'none'
+          wrapper.style.display = 'none'
         }
       })
     },
@@ -32,12 +45,12 @@ module.exports = function() {
     show: function() {
       play.resume()
       animate({
-        el: container,
+        el: wrapper,
         opacity: [0, 1],
         duration: 300,
         easing: 'easeInQuad'
       })
-      container.style.display = 'block'
+      wrapper.style.display = 'block'
     }
   }
 }

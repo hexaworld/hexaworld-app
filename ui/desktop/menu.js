@@ -2,10 +2,17 @@ var _ = require('lodash')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
-module.exports = function() {
-  var container = document.getElementById('menu-container')
-  var size = container.clientWidth / 2
-  container.style.display = 'none'
+module.exports = function(container) {
+  var wrapper = document.createElement('div')
+  wrapper.style.width = '35%'
+  wrapper.style.height = '100%'
+  wrapper.style.left = 0
+  wrapper.style.right = 0
+  wrapper.style.margin = '0 auto'
+  wrapper.style.position = 'absolute'
+  container.appendChild(wrapper)
+
+  var size = wrapper.clientWidth / 2
 
   var events = new EventEmitter()
 
@@ -28,7 +35,7 @@ module.exports = function() {
   svg.style.display = 'block'
   svg.style.top = '50%'
   svg.style.transform = 'translateY(-50%)'
-  container.appendChild(svg)
+  wrapper.appendChild(svg)
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
@@ -40,34 +47,34 @@ module.exports = function() {
   svg.appendChild(hex)
 
   var levels = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  levels.setAttribute("class", 'menu')
   levels.setAttribute("fill", 'rgb(200,200,200)')
   levels.setAttribute("font-size", size / 7.5)
   levels.setAttribute("text-anchor", 'middle')
   levels.setAttribute('transform', 'translate(' + pointsflat[5][0] + ',' + pointsflat[5][1] + ')rotate(30)')
   levels.style.position = 'absolute'
   levels.style.transformOrigin = 'center'
+  levels.style.cursor = 'pointer'
   levels.innerHTML = 'LEVELS'
   svg.appendChild(levels)
 
   var settings = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  settings.setAttribute("class", 'menu')
   settings.setAttribute("fill", 'rgb(200,200,200)')
   settings.setAttribute("font-size", size / 7.5)
   settings.setAttribute("text-anchor", 'middle')
   settings.setAttribute("dominant-baseline", 'hanging')
   settings.setAttribute('transform', 'translate(' + pointsflat[1][0] + ',' + pointsflat[1][1] + ')rotate(-30)')
   settings.style.position = 'absolute'
+  settings.style.cursor = 'pointer'
   settings.innerHTML = 'SETTINGS'
   svg.appendChild(settings)
 
   var about = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  about.setAttribute("class", 'menu')
   about.setAttribute("fill", 'rgb(200,200,200)')
   about.setAttribute("font-size", size / 7.5)
   about.setAttribute("text-anchor", 'middle')
   about.setAttribute('transform', 'translate(' + pointsflat[3][0] + ',' + pointsflat[3][1] + ')rotate(-90)')
   about.innerHTML = 'ABOUT'
+  about.style.cursor = 'pointer'
   svg.appendChild(about)
 
   levels.onclick = function(event) {
@@ -81,6 +88,8 @@ module.exports = function() {
   about.onclick = function(event) {
     events.emit('click', 'about')
   }
+
+  wrapper.style.display = 'none'
 
   return {
     hide: function() {
@@ -108,13 +117,13 @@ module.exports = function() {
         duration: 300,
         easing: 'easeInQuad',
         complete: function() {
-          container.style.display = 'none'
+          wrapper.style.display = 'none'
         }
       })
     },
 
     show: function() {
-      container.style.display = 'block'
+      wrapper.style.display = 'block'
       animate({
         el: hex,
         opacity: [0, 1],

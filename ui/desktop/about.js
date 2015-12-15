@@ -1,20 +1,35 @@
 var _ = require('lodash')
 
-module.exports = function() {
-  var container = document.getElementById('about-container')
-  container.style.display = 'none'
+module.exports = function(container) {
+  var wrapper = document.createElement('div')
+  wrapper.style.width = '90%'
+  wrapper.style.height = '100%'
+  wrapper.style.left = 0
+  wrapper.style.right = 0
+  wrapper.style.margin = '0 auto'
+  wrapper.style.position = 'absolute'
+  container.appendChild(wrapper)
+
+  var size = wrapper.clientWidth
 
   var about = document.createElement('div')
-  about.innerHTML = 'about'
-  container.appendChild(about)
+  about.className = 'h1'
+  about.style.position = 'absolute'
+  about.style.top = size * 0.06
+  about.style.left = size * 0.08
+  about.style.fontSize = size * 0.055
+  about.innerHTML = 'ABOUT'
+  wrapper.appendChild(about)
+
+  wrapper.style.display = 'none'
 
   return {
     hide: function() {
-      container.style.display = 'none'
+      wrapper.style.display = 'none'
     },
 
     show: function() {
-      container.style.display = 'block'
+      wrapper.style.display = 'block'
     }
   }
 

@@ -2,10 +2,8 @@ var _ = require('lodash')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
-module.exports = function() {
-  var container = document.getElementById('side')
+module.exports = function(container) {
   var size = container.clientWidth / 2
-  container.style.display = 'none'
 
   var events = new EventEmitter()
 
@@ -35,12 +33,13 @@ module.exports = function() {
   svg.appendChild(hex)
 
   var menu = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  menu.setAttribute("class", 'menu noclick')
   menu.setAttribute("fill", 'rgb(200,200,200)')
   menu.setAttribute("font-size", size / 16)
   menu.setAttribute("text-anchor", 'middle')
   menu.setAttribute('transform', 'rotate(90)')
   menu.setAttribute("dominant-baseline", 'hanging')
+  menu.style.opacity = 0
+  menu.style.pointerEvents = 'none'
   menu.innerHTML = 'MENU'
   menu.setAttribute('transform', 'translate(' + size/40 + ',' + size/2 + ')rotate(-90)')
   svg.appendChild(menu)
@@ -48,6 +47,8 @@ module.exports = function() {
   hex.onclick = function() {
     events.emit('click', true)
   }
+
+  svg.style.display = 'none'
 
   return {
     hide: function() {
@@ -60,12 +61,15 @@ module.exports = function() {
       animate({
         el: menu,
         opacity: [1, 0],
-        duration: 400
+        duration: 400,
+        complete: function() {
+          svg.style.display = 'none'
+        }
       })
     },
 
     show: function() {
-      container.style.display = 'block'
+      svg.style.display = 'block'
       animate({
         el: hex,
         translateX: [-100, 0],

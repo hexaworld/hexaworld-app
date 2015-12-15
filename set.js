@@ -1,10 +1,9 @@
 var _ = require('lodash')
-var random = require('randomword')
 
 var levels = _.range(12).map(function() {
 
   var config = {
-    name: random(Math.random() * 3 + 5),
+    name: 'foo',
     lives: parseInt(Math.random() * 3) + 1,
     steps: parseInt(Math.random() * 6) + 1
   }
