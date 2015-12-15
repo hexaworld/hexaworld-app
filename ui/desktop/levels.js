@@ -50,6 +50,7 @@ module.exports = function(container, set) {
   var movesval = document.createElement('span')
   movesval.className = 'h2-value'
   movesval.innerHTML = '6'
+  movesval.style.color = 'rgb(220,220,220)'
   moves.appendChild(movesval)
 
   var lives = document.createElement('div')
@@ -65,6 +66,7 @@ module.exports = function(container, set) {
   var livesval = document.createElement('span')
   livesval.className = 'h2-value'
   livesval.innerHTML = '3'
+  livesval.style.color = 'rgb(220,220,220)'
   lives.appendChild(livesval)
 
   var score = document.createElement('div')
@@ -80,6 +82,7 @@ module.exports = function(container, set) {
   var scoreval = document.createElement('span')
   scoreval.className = 'h2-value'
   scoreval.innerHTML = '10000'
+  scoreval.style.color = 'rgb(220,220,220)'
   score.appendChild(scoreval)
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -144,7 +147,7 @@ module.exports = function(container, set) {
     function update() {
       name.innerHTML = set[selected].config.name
       livesval.innerHTML = set[selected].config.lives
-      movesval.innerHTML = set[selected].config.steps
+      movesval.innerHTML = set[selected].config.moves
       scoreval.innerHTML = 0
       var items = document.getElementsByClassName('level-hex')
       _.range(items.length).forEach( function(i) {
