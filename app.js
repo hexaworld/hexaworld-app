@@ -1,8 +1,8 @@
 var _ = require('lodash')
 
-module.exports = function (container, set) {
+module.exports = function (id, set) {
 
-  var container = document.getElementById('container')
+  var container = document.getElementById(id)
 
   var menu = require('./ui/desktop/menu.js')(container)
   var side = require('./ui/desktop/side.js')(container)
