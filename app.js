@@ -40,4 +40,7 @@ module.exports = function (container, set) {
     }, 100)
   })
 
+  return {
+    events: game.events
+  }
 }
