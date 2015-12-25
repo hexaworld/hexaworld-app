@@ -73,8 +73,8 @@ module.exports = function(container) {
       animate({
         el: hex,
         translateX: [-100, 0],
-        duration: 200,
-        easing: 'easeInCirc',
+        duration: 400,
+        easing: 'easeInQuad',
         complete: function() {
           animate({
             el: menu,
