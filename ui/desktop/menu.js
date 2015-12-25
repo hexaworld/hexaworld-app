@@ -1,10 +1,13 @@
 var _ = require('lodash')
+var query = require('css-mediaquery')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
+var ismobile = (window.screen.width < 480) ? true : false
+
 module.exports = function(container) {
   var wrapper = document.createElement('div')
-  wrapper.style.width = '35%'
+  wrapper.style.width = ismobile ? '75%' : '35%'
   wrapper.style.height = '100%'
   wrapper.style.left = 0
   wrapper.style.right = 0
