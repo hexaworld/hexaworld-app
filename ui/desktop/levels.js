@@ -84,6 +84,7 @@ module.exports = function(container, set) {
   play.style.strokeLinejoin = 'round'
   play.style.transformOrigin = 'center'
   play.style.cursor = 'pointer'
+  play.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
   svg.appendChild(play)
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
