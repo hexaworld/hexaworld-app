@@ -12,8 +12,10 @@ function hexsvg(size) {
 }
 
 module.exports = function(container, set) {
+  var ismobile = window.innerWidth < window.innerHeight
+
   var wrapper = document.createElement('div')
-  wrapper.style.width = '85%'
+  wrapper.style.width = ismobile ? '95%' : '85%'
   wrapper.style.height = '100%'
   wrapper.style.left = 0
   wrapper.style.right = 0
@@ -22,80 +24,60 @@ module.exports = function(container, set) {
   container.appendChild(wrapper)
 
   var size = wrapper.clientWidth
+  var hexsize = ismobile ? wrapper.clientWidth * 0.125 : size * 0.05
   wrapper.style.display = 'none'
 
   var selected = 0
   var events = new EventEmitter()
 
   var name = document.createElement('div')
-  name.className = 'h1'
   name.style.position = 'absolute'
-  name.style.top = size * 0.06
+  name.style.top = ismobile ? size * 0.1 : size * 0.3
   name.style.left = size * 0.1
-  name.style.fontSize = size * 0.055
+  name.style.fontSize = ismobile ? size * 0.1 : size * 0.055
   name.style.textTransform = 'uppercase'
   name.innerHTML = 'LEVELNAME'
   wrapper.appendChild(name)
 
   var moves = document.createElement('div')
-  moves.className = 'h2'
   moves.style.position = 'absolute'
-  moves.style.top = size * 0.18
+  moves.style.top = ismobile ? size * 0.24 : size * 0.4
   moves.style.left = size * 0.1
-  moves.style.fontSize = size * 0.03
+  moves.style.fontSize = ismobile ? size * 0.05 : size * 0.03
   moves.innerHTML = 'moves '
   moves.style.color = 'rgb(150,150,150)'
   wrapper.appendChild(moves)
 
   var movesval = document.createElement('span')
-  movesval.className = 'h2-value'
   movesval.innerHTML = '6'
   movesval.style.color = 'rgb(220,220,220)'
   moves.appendChild(movesval)
 
-  var lives = document.createElement('div')
-  lives.className = 'h2'
-  lives.style.position = 'absolute'
-  lives.style.top = size * 0.23
-  lives.style.left = size * 0.1
-  lives.style.fontSize = size * 0.03
-  lives.style.color = 'rgb(150,150,150)'
-  lives.innerHTML = 'lives '
-  wrapper.appendChild(lives)
-
-  var livesval = document.createElement('span')
-  livesval.className = 'h2-value'
-  livesval.innerHTML = '3'
-  livesval.style.color = 'rgb(220,220,220)'
-  lives.appendChild(livesval)
-
   var score = document.createElement('div')
-  score.className = 'h2'
   score.style.position = 'absolute'
-  score.style.top = size * 0.28
+  score.style.top = ismobile ? size * 0.3 : size * 0.45
   score.style.left = size * 0.1
-  score.style.fontSize = size * 0.03
+  score.style.fontSize = ismobile ? size * 0.05 : size * 0.03
   score.style.color = 'rgb(150,150,150)'
-  score.innerHTML = 'best score '
+  score.innerHTML = 'top score '
   wrapper.appendChild(score)
 
   var scoreval = document.createElement('span')
-  scoreval.className = 'h2-value'
   scoreval.innerHTML = '10000'
   scoreval.style.color = 'rgb(220,220,220)'
   score.appendChild(scoreval)
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  svg.setAttribute('width', size * 0.1)
-  svg.setAttribute('height', size * 0.1)
+  svg.setAttribute('width', hexsize * 2)
+  svg.setAttribute('height', hexsize * 2)
   svg.style.position = 'relative'
   svg.style.display = 'block'
-  svg.style.top = size * 0.4
-  svg.style.left = size * 0.1
+  svg.style.top = ismobile ? size * 0.1 : size * 0.07
+  svg.style.left = ismobile ? size * 0.65 : size * 0.1
   wrapper.appendChild(svg)
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-  play.setAttribute("points", hexsvg(0.05 * size))
+  play.setAttribute("points", hexsvg(hexsize))
   play.setAttribute("fill", 'rgb(55,55,55)')
   play.style.stroke = 'rgb(240,240,240)'
   play.style.strokeWidth = '4'
@@ -106,25 +88,28 @@ module.exports = function(container, set) {
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
   playlabel.setAttribute("fill", 'rgb(200,200,200)')
-  playlabel.setAttribute("font-size", size * 0.025)
+  playlabel.setAttribute("font-size", ismobile ? size * 0.07 : size * 0.025)
   playlabel.setAttribute("text-anchor", 'middle')
   playlabel.setAttribute("dominant-baseline", 'middle')
-  playlabel.setAttribute('transform', 'translate(' + 0.05 * size + ',' + 0.05 * size + ')')
+  var t = ismobile
+    ? 'translate(' + 0.125 * size + ',' + 0.125 * size + ')'
+    : 'translate(' + 0.05 * size + ',' + 0.05 * size + ')'
+  playlabel.setAttribute('transform', t)
   playlabel.style.pointerEvents = 'none'
   playlabel.innerHTML = 'PLAY'
   svg.appendChild(playlabel)
 
   var levelgroup = document.createElement('div')
-  levelgroup.style.left = size * 0.5
-  levelgroup.style.top = size * 0.07
-  levelgroup.style.width = size * 0.45
+  levelgroup.style.left = ismobile ? size * 0.1 : size * 0.5
+  levelgroup.style.top = ismobile ? size * 0.45 : size * 0.07
+  levelgroup.style.width = ismobile ? size * 0.88 : size * 0.45
   levelgroup.style.position = 'absolute'
   wrapper.appendChild(levelgroup)
 
   _.range(set.length).forEach(function (i) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    svg.setAttribute('width', size * 0.1)
-    svg.setAttribute('height', size * 0.1)
+    svg.setAttribute('width', hexsize * 2)
+    svg.setAttribute('height', hexsize * 2)
     svg.style.position = 'relative'
     svg.style.display = 'inline'
     svg.style.marginRight = size * 0.025
@@ -132,7 +117,7 @@ module.exports = function(container, set) {
     levelgroup.appendChild(svg)
 
     var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-    hex.setAttribute("points", hexsvg(0.05 * size))
+    hex.setAttribute("points", hexsvg(hexsize))
     hex.setAttribute('data-id', i)
     hex.setAttribute('class', 'level-hex')
     hex.setAttribute('fill', 'rgb(55,55,55)')
@@ -142,11 +127,11 @@ module.exports = function(container, set) {
     hex.style.strokeLinejoin = 'round'
     hex.style.transformOrigin = 'center'
     hex.style.cursor = 'pointer'
+    hex.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
     svg.appendChild(hex)
 
     function update() {
       name.innerHTML = set[selected].config.name
-      livesval.innerHTML = set[selected].config.lives
       movesval.innerHTML = set[selected].config.moves
       scoreval.innerHTML = 0
       var items = document.getElementsByClassName('level-hex')

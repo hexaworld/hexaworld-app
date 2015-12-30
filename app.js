@@ -23,7 +23,6 @@ module.exports = function (id, set) {
   })
 
   menu.events.on('click', function (selection) {
-    console.log(selection)
     if (selection === 'about') about.show()
     if (selection === 'settings') settings.show()
     if (selection === 'levels') levels.show()

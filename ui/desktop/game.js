@@ -6,7 +6,6 @@ module.exports = function(container, level) {
   wrapper.style.width = '100%'
   wrapper.style.height = '100%'
   wrapper.style.position = 'absolute'
-  wrapper.style.pointerEvents = 'none'
   container.appendChild(wrapper)
 
   var game = document.createElement('div')

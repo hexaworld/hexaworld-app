@@ -3,13 +3,17 @@ var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
 module.exports = function(container) {
-  var size = container.clientWidth / 2
+  var size = window.innerHeight * 0.6
+
+  var ismobile = window.innerWidth < window.innerHeight
 
   var events = new EventEmitter()
+  var t
 
+  var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
-    var dx = 0.32 * size * Math.cos(i * 2 * Math.PI / 6 + Math.PI / 6) - size / 6
-    var dy = 0.32 * size * Math.sin(i * 2 * Math.PI / 6 + Math.PI / 6) + size / 2
+    var dx = 0.32 * size * Math.cos(i * 2 * Math.PI / 6 + offset) - size / 6
+    var dy = 0.32 * size * Math.sin(i * 2 * Math.PI / 6 + offset) + size / 2
     return [dx, dy]
   })
 
@@ -18,33 +22,48 @@ module.exports = function(container) {
   svg.setAttribute('height', size)
   svg.style.position = 'absolute'
   svg.style.display = 'block'
-  svg.style.top = '50%'
-  svg.style.transform = 'translateY(-50%)'
-  svg.style.left = 0
+  svg.style.zIndex = 2000
+  svg.style.pointerEvents = 'none'
+  if (ismobile) {
+    svg.style.position = 'fixed'
+    svg.style.bottom = 0
+    svg.style.left = 0
+    svg.style.transform = 'translateX(0px)'
+  } else {
+    svg.style.position = 'fixed'
+    svg.style.top = window.innerHeight * 0.5 - size / 2
+    svg.style.left = 0
+  }
+  
   container.appendChild(svg)
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
-  hex.style.cursor = 'pointer'
   hex.style.fill = 'rgb(55,55,55)'
   hex.style.stroke = 'rgb(155,155,155)'
   hex.style.strokeWidth = '5'
   hex.style.strokeLinejoin = 'round'
+  hex.style.cursor = 'pointer'
+  hex.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
+  hex.style.pointerEvents = 'all'
   svg.appendChild(hex)
 
   var menu = document.createElementNS('http://www.w3.org/2000/svg', 'text')
   menu.setAttribute("fill", 'rgb(200,200,200)')
   menu.setAttribute("font-size", size / 16)
   menu.setAttribute("text-anchor", 'middle')
-  menu.setAttribute('transform', 'rotate(90)')
   menu.setAttribute("dominant-baseline", 'hanging')
   menu.style.opacity = 0
   menu.style.pointerEvents = 'none'
   menu.innerHTML = 'MENU'
-  menu.setAttribute('transform', 'translate(' + size/40 + ',' + size/2 + ')rotate(-90)')
+  t = ismobile
+    ? 'translate(' + size * 0.15 + ',' + size * 0.92 + ')rotate(0)'
+    : 'translate(' + size * 0.025 + ',' + size * 0.5 + ')rotate(-90)'
+  menu.setAttribute('transform', t)
   svg.appendChild(menu)
 
   hex.onclick = function() {
+    menu.setAttribute("fill", "rgb(255,255,255)")
     events.emit('click', true)
   }
 
@@ -54,7 +73,8 @@ module.exports = function(container) {
     hide: function() {
       animate({
         el: hex,
-        translateX: [0, -100],
+        translateX: ismobile ? [size * 0.3, -100] : [0, -100],
+        translateY: ismobile ? [size * 0.65, size * 0.65] : [0, 0],
         duration: 200,
         easing: 'easeInCirc'
       })
@@ -69,11 +89,13 @@ module.exports = function(container) {
     },
 
     show: function() {
+      menu.setAttribute("fill", "rgb(200,200,200)")
       svg.style.display = 'block'
       animate({
         el: hex,
-        translateX: [-100, 0],
-        duration: 400,
+        translateX: ismobile ? [-100, size * 0.3] : [-100, 0],
+        translateY: ismobile ? [size * 0.65, size * 0.65] : [0, 0],
+        duration: 300,
         easing: 'easeInQuad',
         complete: function() {
           animate({

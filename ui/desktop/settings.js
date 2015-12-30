@@ -2,8 +2,10 @@ var _ = require('lodash')
 
 module.exports = function(container) {
   var wrapper = document.createElement('div')
-  wrapper.style.width = '90%'
-  wrapper.style.height = '100%'
+  wrapper.style.width = '85%'
+  wrapper.style.height = '80%'
+  wrapper.style.top = '10%'
+  wrapper.style.bottom = '10%'
   wrapper.style.left = 0
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'

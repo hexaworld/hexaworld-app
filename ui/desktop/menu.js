@@ -3,13 +3,20 @@ var query = require('css-mediaquery')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
-var ismobile = (window.screen.width < 480) ? true : false
+var ismobile = (window.outerWidth < 480) ? true : false
 
 module.exports = function(container) {
+  var height = container.clientHeight
+
+  if (height * 0.7 > container.clientWidth) {
+    height = container.clientWidth * (1 / 0.7)
+  }
+
   var wrapper = document.createElement('div')
-  wrapper.style.width = ismobile ? '75%' : '35%'
-  wrapper.style.height = '100%'
-  wrapper.style.left = 0
+  wrapper.style.width = height * 0.6
+  wrapper.style.height = '97%'
+  wrapper.style.top = '3%'
+  wrapper.style.left = '0%'
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'
   wrapper.style.position = 'absolute'
@@ -54,8 +61,10 @@ module.exports = function(container) {
   levels.setAttribute("font-size", size / 7.5)
   levels.setAttribute("text-anchor", 'middle')
   levels.setAttribute('transform', 'translate(' + pointsflat[5][0] + ',' + pointsflat[5][1] + ')rotate(30)')
+  levels.setAttribute("class", "tappable")
   levels.style.position = 'absolute'
   levels.style.cursor = 'pointer'
+  levels.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
   levels.innerHTML = 'LEVELS'
   svg.appendChild(levels)
 
@@ -67,6 +76,7 @@ module.exports = function(container) {
   settings.setAttribute('transform', 'translate(' + pointsflat[1][0] + ',' + pointsflat[1][1] + ')rotate(-30)')
   settings.style.position = 'absolute'
   settings.style.cursor = 'pointer'
+  settings.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
   settings.innerHTML = 'SETTINGS'
   svg.appendChild(settings)
 
@@ -77,17 +87,21 @@ module.exports = function(container) {
   about.setAttribute('transform', 'translate(' + pointsflat[3][0] + ',' + pointsflat[3][1] + ')rotate(-90)')
   about.innerHTML = 'ABOUT'
   about.style.cursor = 'pointer'
+  about.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
   svg.appendChild(about)
 
   levels.onclick = function(event) {
+    levels.setAttribute("fill", "rgb(255,255,255)")
     events.emit('click', 'levels')
   }
 
   settings.onclick = function(event) {
+    settings.setAttribute("fill", "rgb(255,255,255)")
     events.emit('click', 'settings')
   }
 
   about.onclick = function(event) {
+    about.setAttribute("fill", "rgb(255,255,255)")
     events.emit('click', 'about')
   }
 
@@ -126,6 +140,9 @@ module.exports = function(container) {
 
     show: function() {
       wrapper.style.display = 'block'
+      about.setAttribute("fill", "rgb(200,200,200)")
+      levels.setAttribute("fill", "rgb(200,200,200)")
+      settings.setAttribute("fill", "rgb(200,200,200)")
       animate({
         el: hex,
         opacity: [0, 1],
