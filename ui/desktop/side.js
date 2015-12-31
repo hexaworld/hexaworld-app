@@ -67,7 +67,8 @@ module.exports = function(container) {
     events.emit('click', true)
   }
 
-  svg.style.display = 'none'
+  hex.style.opacity = 0
+  menu.style.opacity = 0
 
   return {
     hide: function() {
@@ -75,33 +76,31 @@ module.exports = function(container) {
         el: hex,
         translateX: ismobile ? [size * 0.21, -200] : [0, -100],
         translateY: ismobile ? [size * 0.656, size * 0.656] : [0, 0],
+        opacity: [1, 0],
         duration: 200,
         easing: 'easeInCirc'
       })
       animate({
         el: menu,
         opacity: [1, 0],
-        duration: 400,
-        complete: function() {
-          svg.style.display = 'none'
-        }
+        duration: 400
       })
     },
 
     show: function() {
       menu.setAttribute("fill", "rgb(200,200,200)")
-      svg.style.display = 'block'
       animate({
         el: hex,
         translateX: ismobile ? [-200, size * 0.21] : [-100, 0],
         translateY: ismobile ? [size * 0.656, size * 0.656] : [0, 0],
+        opacity: [0, 1],
         duration: 300,
         easing: 'easeInQuad',
-        complete: function() {
+        complete: function () {
           animate({
             el: menu,
             opacity: [0, 1],
-            duration: 200
+            duration: 150
           })
         }
       })

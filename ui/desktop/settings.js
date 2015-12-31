@@ -1,4 +1,5 @@
 var _ = require('lodash')
+var animate = require('animateplus')
 
 module.exports = function(container) {
   var wrapper = document.createElement('div')
@@ -10,6 +11,7 @@ module.exports = function(container) {
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'
   wrapper.style.position = 'absolute'
+  wrapper.style.pointerEvents = 'none'
   container.appendChild(wrapper)
 
   var size = wrapper.clientWidth
@@ -23,15 +25,34 @@ module.exports = function(container) {
   settings.innerHTML = 'SETTINGS'
   wrapper.appendChild(settings)
 
-  wrapper.style.display = 'none'
+  wrapper.style.opacity = 0
+  wrapper.style.pointerEvents = 'none'
 
   return {
     hide: function() {
-      wrapper.style.display = 'none'
+      if (wrapper.style.opacity == 1) {
+        animate({
+          el: wrapper,
+          opacity: [1, 0],
+          duration: 200,
+          easing: 'easeInCirc',
+          complete: function () {
+            wrapper.style.pointerEvents = 'none'
+          }
+        })
+      }
     },
 
     show: function() {
-      wrapper.style.display = 'block'
+      animate({
+        el: wrapper,
+        opacity: [0, 1],
+        duration: 200,
+        easing: 'easeInCirc',
+        complete: function () {
+          wrapper.style.pointerEvents = 'all'
+        }
+      })
     }
   }
 

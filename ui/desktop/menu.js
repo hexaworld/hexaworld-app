@@ -105,66 +105,26 @@ module.exports = function(container) {
     events.emit('click', 'about')
   }
 
-  wrapper.style.display = 'none'
+  wrapper.style.opacity = 0
 
   return {
     hide: function() {
       animate({
-        el: hex,
-        opacity: [1, 0],
-        duration: 200,
-        easing: 'easeInQuad'
-      })
-      animate({
-        el: levels,
+        el: wrapper,
         opacity: [1, 0],
         duration: 300,
         easing: 'easeInQuad'
-      })
-      animate({
-        el: about,
-        opacity: [1, 0],
-        duration: 300,
-        easing: 'easeInQuad'
-      })
-      animate({
-        el: settings,
-        opacity: [1, 0],
-        duration: 300,
-        easing: 'easeInQuad',
-        complete: function() {
-          wrapper.style.display = 'none'
-        }
       })
     },
 
     show: function() {
-      wrapper.style.display = 'block'
       about.setAttribute("fill", "rgb(200,200,200)")
       levels.setAttribute("fill", "rgb(200,200,200)")
       settings.setAttribute("fill", "rgb(200,200,200)")
       animate({
-        el: hex,
+        el: wrapper,
         opacity: [0, 1],
         duration: 200,
-        easing: 'easeInQuad'
-      })
-      animate({
-        el: levels,
-        opacity: [0, 1],
-        duration: 300,
-        easing: 'easeInQuad'
-      })
-      animate({
-        el: about,
-        opacity: [0, 1],
-        duration: 400,
-        easing: 'easeInQuad'
-      })
-      animate({
-        el: settings,
-        opacity: [0, 1],
-        duration: 500,
         easing: 'easeInQuad'
       })
     },

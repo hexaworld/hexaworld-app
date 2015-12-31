@@ -40,8 +40,6 @@ module.exports = function(container, set) {
     box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 : box.left
   }
 
-  wrapper.style.display = 'none'
-
   var selected = 0
   var events = new EventEmitter()
 
@@ -188,27 +186,33 @@ module.exports = function(container, set) {
 
   })
 
+  wrapper.style.opacity = 0
+  wrapper.style.pointerEvents = 'none'
+
   return {
     hide: function() {
-      animate({
-        el: wrapper,
-        opacity: [1, 0],
-        duration: 300,
-        easing: 'easeInQuad',
-        complete: function() {
-          wrapper.style.display = 'none'
-        }
-      })
+      if (wrapper.style.opacity == 1) {
+        animate({
+          el: wrapper,
+          opacity: [1, 0],
+          duration: 300,
+          easing: 'easeInQuad',
+          complete: function() {
+            wrapper.style.pointerEvents = 'none'
+          }
+        })
+      }
     },
 
     show: function() {
-      console.log('we got here')
-      wrapper.style.display = 'block'
       animate({
         el: wrapper,
         opacity: [0, 1],
         duration: 300,
-        easing: 'easeInQuad'
+        easing: 'easeInQuad',
+        complete: function () {
+          wrapper.style.pointerEvents = 'all'
+        }
       })
     },
 
