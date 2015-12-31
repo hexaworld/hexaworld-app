@@ -12,7 +12,7 @@ module.exports = function(container) {
 
   var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
-    var dx = 0.32 * size * Math.cos(i * 2 * Math.PI / 6 + offset) - size / 6
+    var dx = (ismobile ? 0.45 : 0.32) * size * Math.cos(i * 2 * Math.PI / 6 + offset) - size / 6
     var dy = 0.32 * size * Math.sin(i * 2 * Math.PI / 6 + offset) + size / 2
     return [dx, dy]
   })
@@ -73,8 +73,8 @@ module.exports = function(container) {
     hide: function() {
       animate({
         el: hex,
-        translateX: ismobile ? [size * 0.3, -100] : [0, -100],
-        translateY: ismobile ? [size * 0.65, size * 0.65] : [0, 0],
+        translateX: ismobile ? [size * 0.21, -200] : [0, -100],
+        translateY: ismobile ? [size * 0.656, size * 0.656] : [0, 0],
         duration: 200,
         easing: 'easeInCirc'
       })
@@ -93,8 +93,8 @@ module.exports = function(container) {
       svg.style.display = 'block'
       animate({
         el: hex,
-        translateX: ismobile ? [-100, size * 0.3] : [-100, 0],
-        translateY: ismobile ? [size * 0.65, size * 0.65] : [0, 0],
+        translateX: ismobile ? [-200, size * 0.21] : [-100, 0],
+        translateY: ismobile ? [size * 0.656, size * 0.656] : [0, 0],
         duration: 300,
         easing: 'easeInQuad',
         complete: function() {
