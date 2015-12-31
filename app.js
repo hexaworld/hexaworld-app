@@ -4,12 +4,12 @@ module.exports = function (id, set) {
 
   var container = document.getElementById(id)
 
-  var menu = require('./ui/desktop/menu.js')(container)
-  var side = require('./ui/desktop/side.js')(container)
-  var about = require('./ui/desktop/about.js')(container)
-  var settings = require('./ui/desktop/settings.js')(container)
-  var levels = require('./ui/desktop/levels.js')(container, set)
-  var game = require('./ui/desktop/game.js')(container, set[0])
+  var menu = require('./ui/menu.js')(container)
+  var side = require('./ui/side.js')(container)
+  var about = require('./ui/about.js')(container)
+  var settings = require('./ui/settings.js')(container)
+  var levels = require('./ui/levels.js')(container, set)
+  var game = require('./ui/game.js')(container, set[0])
 
   menu.show()
 
