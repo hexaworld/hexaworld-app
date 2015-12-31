@@ -24,7 +24,22 @@ module.exports = function(container, set) {
   container.appendChild(wrapper)
 
   var size = wrapper.clientWidth
-  var hexsize = ismobile ? wrapper.clientWidth * 0.125 : size * 0.05
+
+  var box = {
+    left: ismobile ? size * 0.1 : size * 0.5,
+    top: ismobile ? size * 0.45 : size * 0.07,
+    width: ismobile ? size * 0.8 : size * 0.45,
+    height: ismobile ? window.innerHeight * 0.6 : window.innerHeight * 0.8,
+    margin: ismobile ? 0.2 : 0.2
+  }
+
+  var hexsize = (box.width / (3 * (2 + box.margin)))
+  if ((hexsize * 2 + box.margin * hexsize) * 4 > box.height) {
+    hexsize = (box.height / (4 * (2 + box.margin)))
+    box.width = (3 * (hexsize * 2 + box.margin * hexsize))
+    box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 : box.left
+  }
+
   wrapper.style.display = 'none'
 
   var selected = 0
@@ -33,7 +48,7 @@ module.exports = function(container, set) {
   var name = document.createElement('div')
   name.style.position = 'absolute'
   name.style.top = ismobile ? size * 0.1 : size * 0.3
-  name.style.left = size * 0.1
+  name.style.left = ismobile ? box.left : size * 0.1
   name.style.fontSize = ismobile ? size * 0.1 : size * 0.055
   name.style.textTransform = 'uppercase'
   name.innerHTML = 'LEVELNAME'
@@ -42,7 +57,7 @@ module.exports = function(container, set) {
   var moves = document.createElement('div')
   moves.style.position = 'absolute'
   moves.style.top = ismobile ? size * 0.24 : size * 0.4
-  moves.style.left = size * 0.1
+  moves.style.left = ismobile ? box.left : size * 0.1
   moves.style.fontSize = ismobile ? size * 0.05 : size * 0.03
   moves.innerHTML = 'moves '
   moves.style.color = 'rgb(150,150,150)'
@@ -55,8 +70,8 @@ module.exports = function(container, set) {
 
   var score = document.createElement('div')
   score.style.position = 'absolute'
-  score.style.top = ismobile ? size * 0.3 : size * 0.45
-  score.style.left = size * 0.1
+  score.style.top = ismobile ? size * 0.31 : size * 0.45
+  score.style.left = ismobile ? box.left : size * 0.1
   score.style.fontSize = ismobile ? size * 0.05 : size * 0.03
   score.style.color = 'rgb(150,150,150)'
   score.innerHTML = 'top score '
@@ -70,10 +85,14 @@ module.exports = function(container, set) {
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   svg.setAttribute('width', hexsize * 2)
   svg.setAttribute('height', hexsize * 2)
-  svg.style.position = 'relative'
-  svg.style.display = 'block'
+  svg.style.position = 'absolute'
   svg.style.top = ismobile ? size * 0.1 : size * 0.07
-  svg.style.left = ismobile ? size * 0.65 : size * 0.1
+  if (ismobile) {
+    svg.style.right = box.left + hexsize * 0.2
+  } else {
+    svg.style.left = size * 0.1
+  }
+  
   wrapper.appendChild(svg)
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
@@ -89,21 +108,22 @@ module.exports = function(container, set) {
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
   playlabel.setAttribute("fill", 'rgb(200,200,200)')
-  playlabel.setAttribute("font-size", ismobile ? size * 0.07 : size * 0.025)
+  playlabel.setAttribute("font-size", ismobile ? hexsize * 0.6 : hexsize * 0.6)
   playlabel.setAttribute("text-anchor", 'middle')
   playlabel.setAttribute("dominant-baseline", 'middle')
   var t = ismobile
-    ? 'translate(' + 0.125 * size + ',' + 0.125 * size + ')'
-    : 'translate(' + 0.05 * size + ',' + 0.05 * size + ')'
+    ? 'translate(' + hexsize + ',' + hexsize + ')'
+    : 'translate(' + hexsize + ',' + hexsize + ')'
   playlabel.setAttribute('transform', t)
   playlabel.style.pointerEvents = 'none'
   playlabel.innerHTML = 'PLAY'
   svg.appendChild(playlabel)
 
   var levelgroup = document.createElement('div')
-  levelgroup.style.left = ismobile ? size * 0.1 : size * 0.5
-  levelgroup.style.top = ismobile ? size * 0.45 : size * 0.07
-  levelgroup.style.width = ismobile ? size * 0.88 : size * 0.45
+  levelgroup.style.left = box.left
+  levelgroup.style.top = box.top
+  levelgroup.style.width = box.width
+  levelgroup.style.height = box.height
   levelgroup.style.position = 'absolute'
   wrapper.appendChild(levelgroup)
 
@@ -113,8 +133,8 @@ module.exports = function(container, set) {
     svg.setAttribute('height', hexsize * 2)
     svg.style.position = 'relative'
     svg.style.display = 'inline'
-    svg.style.marginRight = size * 0.025
-    svg.style.marginBottom = size * 0.02
+    svg.style.marginRight = box.margin * hexsize
+    svg.style.marginBottom = box.margin * hexsize
     levelgroup.appendChild(svg)
 
     var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
