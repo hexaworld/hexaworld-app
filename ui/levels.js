@@ -105,8 +105,8 @@ module.exports = function(container, set) {
   svg.appendChild(play)
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  playlabel.setAttribute("fill", 'rgb(200,200,200)')
-  playlabel.setAttribute("font-size", ismobile ? hexsize * 0.6 : hexsize * 0.6)
+  playlabel.setAttribute("fill", 'rgb(240,240,240)')
+  playlabel.setAttribute("font-size", hexsize * 0.5)
   playlabel.setAttribute("text-anchor", 'middle')
   playlabel.setAttribute("dominant-baseline", 'middle')
   var t = ismobile
