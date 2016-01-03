@@ -39,7 +39,7 @@ module.exports = function(container) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
-  hex.style.fill = 'rgb(55,55,55)'
+  hex.style.fill = 'rgb(45,45,45)'
   hex.style.stroke = 'rgb(155,155,155)'
   hex.style.strokeWidth = '5'
   hex.style.strokeLinejoin = 'round'

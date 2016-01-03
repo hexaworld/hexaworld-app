@@ -13,6 +13,7 @@ module.exports = function(container) {
   }
 
   var wrapper = document.createElement('div')
+  wrapper.id = 'menu'
   wrapper.style.width = height * 0.6
   wrapper.style.height = '97%'
   wrapper.style.top = '3%'
