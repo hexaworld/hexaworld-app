@@ -5,7 +5,7 @@ var EventEmitter = require('events').EventEmitter
 function hexsvg(size) {
   var points = _.range(7).map(function (i) {
     var dx = size * Math.cos(i * 2 * Math.PI / 6 + Math.PI / 6) + size
-    var dy = size * Math.sin(i * 2 * Math.PI / 6 + Math.PI / 6) + size
+    var dy = size * Math.sin(i * 2 * Math.PI / 6 + Math.PI / 6) + size * 1.05
     return [dx, dy]
   })
   return points.join(' ')
@@ -82,7 +82,7 @@ module.exports = function(container, set) {
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   svg.setAttribute('width', hexsize * 2)
-  svg.setAttribute('height', hexsize * 2)
+  svg.setAttribute('height', hexsize * 2.1)
   svg.style.position = 'absolute'
   svg.style.top = ismobile ? size * 0.1 : size * 0.07
   if (ismobile) {
@@ -95,7 +95,7 @@ module.exports = function(container, set) {
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   play.setAttribute("points", hexsvg(hexsize))
-  play.setAttribute("fill", 'rgb(55,55,55)')
+  play.setAttribute("fill", 'rgb(45,45,45)')
   play.style.stroke = 'rgb(240,240,240)'
   play.style.strokeWidth = '4'
   play.style.strokeLinejoin = 'round'
@@ -128,7 +128,7 @@ module.exports = function(container, set) {
   _.range(set.length).forEach(function (i) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', hexsize * 2)
-    svg.setAttribute('height', hexsize * 2)
+    svg.setAttribute('height', hexsize * 2.1)
     svg.style.position = 'relative'
     svg.style.display = 'inline'
     svg.style.marginRight = box.margin * hexsize
@@ -139,7 +139,6 @@ module.exports = function(container, set) {
     hex.setAttribute("points", hexsvg(hexsize))
     hex.setAttribute('data-id', i)
     hex.setAttribute('class', 'level-hex')
-    hex.setAttribute('fill', 'rgb(55,55,55)')
     hex.id = 'level-hex-' + i
     hex.style.stroke = 'rgb(240,240,240)'
     hex.style.strokeWidth = '4'
@@ -155,11 +154,11 @@ module.exports = function(container, set) {
       scoreval.innerHTML = 0
       var items = document.getElementsByClassName('level-hex')
       _.range(items.length).forEach( function(i) {
-        document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(55,55,55)')
+        document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(45,45,45)')
       })
       animate({
         el: document.getElementById('level-hex-' + selected),
-        fill: ['rgb(55,55,55)', 'rgb(100,100,100)'],
+        fill: ['rgb(45,45,45)', 'rgb(100,100,100)'],
         duration: 150,
         easing: 'easeInQuad'
       })
@@ -177,7 +176,7 @@ module.exports = function(container, set) {
     play.onclick = function(item) {
       animate({
         el: play,
-        fill: ['rgb(100,100,100)', 'rgb(55,55,55)'],
+        fill: ['rgb(100,100,100)', 'rgb(45,45,45)'],
         duration: 300,
         easing: 'easeInQuad'
       })

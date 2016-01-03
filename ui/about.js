@@ -51,18 +51,18 @@ module.exports = function(container) {
   var about = document.createElement('div')
   about.style.position = 'absolute'
   about.style.top = ismobile ? height * 0.5 : size * 0.06
-  about.style.left = ismobile ? size * 0.3 : size * 0.44
-  about.style.fontSize = ismobile ? size * 0.15 : size * 0.055
+  about.style.left = ismobile ? size * 0.3 : width * 0.52 - menuwidth * 0.5 * 0.8
+  about.style.fontSize = ismobile ? size * 0.15 : size * 0.06
   about.innerHTML = 'ABOUT'
   wrapper.appendChild(about)
 
   var text = document.createElement('p')
   text.style.position = 'absolute'
   text.style.top = ismobile ? 0 : size * 0.14
-  text.style.left = ismobile ? size * 0.1 : size * 0.44
-  text.style.width = ismobile ? size * 0.9 : size * 0.4
+  text.style.left = ismobile ? size * 0.08 : width * 0.52 - menuwidth * 0.5 * 0.8
+  text.style.width = ismobile ? size * 0.9 : size * 0.5
   text.style.color = 'rgb(155,155,155)'
-  text.style.fontSize = ismobile ? size * 0.07 : size * 0.02
+  text.style.fontSize = ismobile ? size * 0.06 : Math.sqrt(size * 0.6)
   text.innerHTML = "hexaworld is a game about learning and exploration <br><br>\n designed by neuroscientists and available as <a style='color: rgb(155,155,155)' href='https://github.com/hexaworld'>open source</a>"
   wrapper.appendChild(text)
 
