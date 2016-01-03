@@ -82,10 +82,10 @@ module.exports = function(container, state) {
 
   function createOption(key) {
     var item = document.createElement('div')
-    item.style.marginBottom = size * 0.02
+    item.style.marginBottom = ismobile ? size * 0.05 : size * 0.02
     options.appendChild(item)
 
-    var iconsize = size * 0.03
+    var iconsize = ismobile ? size * 0.1 : size * 0.03
 
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', iconsize * 4.2)
@@ -115,8 +115,8 @@ module.exports = function(container, state) {
     svg.appendChild(hex2)
     
     var name = document.createElement('span')
-    name.style.fontSize = Math.sqrt(size * 1)
-    name.style.marginLeft = size * 0.02
+    name.style.fontSize = ismobile ? Math.sqrt(size * 1.8) : Math.sqrt(size * 1)
+    name.style.marginLeft = ismobile ? size * 0.05 : size * 0.02
     name.style.verticalAlign = 'middle'
     name.innerHTML = key.name
     item.appendChild(name)
