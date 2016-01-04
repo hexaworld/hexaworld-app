@@ -63,7 +63,7 @@ module.exports = function(container) {
   text.style.width = ismobile ? size * 0.9 : size * 0.5
   text.style.color = 'rgb(155,155,155)'
   text.style.fontSize = ismobile ? size * 0.06 : Math.sqrt(size * 0.6)
-  text.innerHTML = "<span style='color: rgb(240,240,240)'>hexaworld</span> is a game about learning and exploration <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: rgb(155,155,155)' href='https://github.com/hexaworld'>github</a>"
+  text.innerHTML = "<span style='color: rgb(240,240,240)'>hexaworld</span> is a game about learning to explore <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: rgb(155,155,155)' href='https://github.com/hexaworld'>github</a>"
   wrapper.appendChild(text)
 
   wrapper.style.opacity = 0
