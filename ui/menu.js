@@ -1,5 +1,4 @@
 var _ = require('lodash')
-var query = require('css-mediaquery')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
 
