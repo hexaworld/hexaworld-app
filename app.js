@@ -1,8 +1,10 @@
 var _ = require('lodash')
+var fastclick = require('fastclick').FastClick
 
 module.exports = function (id, set) {
 
   var container = document.getElementById(id)
+  fastclick.attach(document.body)
 
   var state = require('./state.js')
 
