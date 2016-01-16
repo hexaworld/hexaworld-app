@@ -1,3 +1,4 @@
+var css = require('dom-css')
 var _ = require('lodash')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
@@ -13,19 +14,20 @@ function hexagon(size, offset) {
 }
 
 module.exports = function(container, state) {
-  var ismobile = window.innerWidth < window.innerHeight
+  var width = container.clientWidth
+  var height = container.clientHeight
+  var ismobile = width < height
+  var menuwidth = document.getElementById('menu').clientWidth
 
   var wrapper = document.createElement('div')
   wrapper.id = 'settings'
-  wrapper.style.width = '85%'
-  wrapper.style.height = '90%'
-  wrapper.style.top = '5%'
-  wrapper.style.bottom = '5%'
-  wrapper.style.left = 0
-  wrapper.style.right = 0
-  wrapper.style.margin = '0 auto'
-  wrapper.style.position = 'absolute'
-  wrapper.style.pointerEvents = 'none'
+  css(wrapper, {
+    width: '85%', height: ismobile ? '80%' : '90%',
+    bottom: '5%', left: 0, right: 0, top: ismobile ? '20%' : '5%',
+    margin: '0 auto',
+    position: 'absolute',
+    pointerEvents: 'none'
+  })
   container.appendChild(wrapper)
 
   var size = wrapper.clientWidth
@@ -49,40 +51,43 @@ module.exports = function(container, state) {
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
   svg.setAttribute('width', height * 1.2)
   svg.setAttribute('height', height * 1.2)
-  svg.style.position = 'absolute'
-  svg.style.display = 'block'
-  svg.style.pointerEvents = 'none'
-  svg.style.position = 'fixed'
-  svg.style.bottom = ismobile ? height * 0.2 : -height * 0.035
-  var menuwidth = document.getElementById('menu').clientWidth
-  svg.style.right = ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8
-  svg.style.pointerEvents = 'none'
+  css(svg, {
+    position: 'absolute',
+    display: 'block',
+    pointerEvents: 'none',
+    position: 'fixed',
+    bottom: ismobile ? height * 0.05 : -height * 0.035,
+    pointerEvents: 'none',
+    right: ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8
+  })
   wrapper.appendChild(svg)
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute('points', points.join(' '))
-  hex.style.fill = 'none'
-  hex.style.stroke = 'rgb(155,155,155)'
-  hex.style.strokeWidth = '5'
+  css(hex, {fill: 'none', stroke: 'rgb(155,155,155)', strokeWidth: '5'})
   svg.appendChild(hex)
 
   var settings = document.createElement('div')
-  settings.style.position = 'absolute'
-  settings.style.top = ismobile ? height * 0.5 : size * 0.06
-  settings.style.left = ismobile ? size * 0 : size * 0.15
-  settings.style.fontSize = ismobile ? size * 0.15 : size * 0.06
   settings.innerHTML = 'SETTINGS'
+  css(settings, {
+    position: 'absolute',
+    top: ismobile ? height * 0.5 : size * 0.06,
+    left: ismobile ? size * 0 : size * 0.15,
+    fontSize: ismobile ? size * 0.15 : size * 0.06
+  })
   wrapper.appendChild(settings)
 
   var options = document.createElement('div')
-  options.style.position = 'absolute'
-  options.style.top = ismobile ? 0 : size * 0.16
-  options.style.left = ismobile ? size * 0 : size * 0.15
+  css(options, {
+    position: 'absolute', 
+    top: ismobile ? 0 : size * 0.16,
+    left:  ismobile ? size * 0 : size * 0.15
+  })
   wrapper.appendChild(options)
 
   function createOption(key) {
     var item = document.createElement('div')
-    item.style.marginBottom = ismobile ? size * 0.05 : size * 0.02
+    css(item, {marginBottom: ismobile ? size * 0.05 : size * 0.02})
     options.appendChild(item)
 
     var iconsize = ismobile ? size * 0.1 : size * 0.03
@@ -90,49 +95,51 @@ module.exports = function(container, state) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', iconsize * 4.2)
     svg.setAttribute('height', iconsize * 2.2)
-    svg.style.position = 'absolute'
-    svg.style.display = 'inline'
-    svg.style.position = 'relative'
-    svg.style.left = 0
-    svg.style.verticalAlign = 'middle'
-    svg.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
+    css(svg, {
+      position: 'absolute',
+      display: 'inline',
+      position: 'relative',
+      left: 0,
+      verticalAlign: 'middle',
+      webkitTapHighlightColor: 'rgba(0,0,0,0)'
+    })
     item.appendChild(svg)
+
+    var button = {stroke: 'rgb(240,240,240)', strokeWidth: 3, cursor: 'pointer'}
 
     var hex1 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
     hex1.setAttribute('points', hexagon(iconsize).join(' '))
-    hex1.style.fill = key.value ? 'rgb(45,45,45)' : 'rgb(140,140,140)'
-    hex1.style.stroke = 'rgb(240,240,240)'
-    hex1.style.strokeWidth = '3'
-    hex1.style.cursor = 'pointer'
+    css(hex1, {fill: key.value ? 'rgb(45,45,45)' : 'rgb(140,140,140)'})
+    css(hex1, button)
     svg.appendChild(hex1)   
 
     var hex2 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
     hex2.setAttribute('points', hexagon(iconsize, [iconsize * 2.2, 0]).join(' '))
-    hex2.style.fill = key.value ? 'rgb(140,140,140)' : 'rgb(45,45,45)'
-    hex2.style.stroke = 'rgb(240,240,240)'
-    hex2.style.strokeWidth = '3'
-    hex2.style.cursor = 'pointer'
+    css(hex2, {fill: key.value ? 'rgb(140,140,140)' : 'rgb(45,45,45)'})
+    css(hex2, button)
     svg.appendChild(hex2)
     
     var name = document.createElement('span')
-    name.style.fontSize = ismobile ? Math.sqrt(size * 1.8) : Math.sqrt(size * 1)
-    name.style.marginLeft = ismobile ? size * 0.05 : size * 0.02
-    name.style.verticalAlign = 'middle'
     name.innerHTML = key.name
+    css(name, {
+      fontSize: ismobile ? Math.sqrt(size * 1.8) : Math.sqrt(size * 1),
+      marginLeft: ismobile ? size * 0.05 : size * 0.02,
+      verticalAlign: 'middle'
+    })
     item.appendChild(name)
 
     var br = document.createElement('br')
     item.appendChild(br)
 
     hex1.onclick = function () {
-      hex1.style.fill = 'rgb(140,140,140)'
-      hex2.style.fill = 'rgb(45,45,45)'
+      css(hex1, {fill: 'rgb(140,140,140)'})
+      css(hex2, {fill: 'rgb(45,45,45)'})
       events.emit('click', {name: key.name, value: false})
     }
 
     hex2.onclick = function () {
-      hex1.style.fill = 'rgb(45,45,45)'
-      hex2.style.fill = 'rgb(140,140,140)'
+      css(hex1, {fill: 'rgb(45,45,45)'})
+      css(hex2, {fill: 'rgb(140,140,140)'})
       events.emit('click', {name: key.name, value: true})
     }
   }
@@ -141,8 +148,7 @@ module.exports = function(container, state) {
     createOption(key)
   })
 
-  wrapper.style.opacity = 0
-  wrapper.style.pointerEvents = 'none'
+  css(wrapper, {opacity: 0, pointerEvents: 'none'})
 
   return {
     hide: function() {

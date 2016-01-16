@@ -16,7 +16,8 @@ module.exports = function(container, set) {
 
   var wrapper = document.createElement('div')
   wrapper.style.width = ismobile ? '95%' : '85%'
-  wrapper.style.height = '100%'
+  wrapper.style.height = ismobile ? '90%' : '100%'
+  wrapper.style.top = ismobile ? '10%' : '0%'
   wrapper.style.left = 0
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'
@@ -45,18 +46,18 @@ module.exports = function(container, set) {
 
   var name = document.createElement('div')
   name.style.position = 'absolute'
-  name.style.top = ismobile ? size * 0.1 : size * 0.3
+  name.style.top = ismobile ? size * 0 : size * 0.3
   name.style.left = ismobile ? box.left : size * 0.1
-  name.style.fontSize = ismobile ? size * 0.1 : size * 0.055
+  name.style.fontSize = ismobile ? size * 0.16 : size * 0.055
   name.style.textTransform = 'uppercase'
   name.innerHTML = 'LEVELNAME'
   wrapper.appendChild(name)
 
   var moves = document.createElement('div')
   moves.style.position = 'absolute'
-  moves.style.top = ismobile ? size * 0.24 : size * 0.4
+  moves.style.top = ismobile ? size * 0.19 : size * 0.4
   moves.style.left = ismobile ? box.left : size * 0.1
-  moves.style.fontSize = ismobile ? size * 0.05 : size * 0.03
+  moves.style.fontSize = ismobile ? size * 0.06 : size * 0.03
   moves.innerHTML = 'moves '
   moves.style.color = 'rgb(150,150,150)'
   wrapper.appendChild(moves)
@@ -68,9 +69,9 @@ module.exports = function(container, set) {
 
   var score = document.createElement('div')
   score.style.position = 'absolute'
-  score.style.top = ismobile ? size * 0.31 : size * 0.45
+  score.style.top = ismobile ? size * 0.28 : size * 0.45
   score.style.left = ismobile ? box.left : size * 0.1
-  score.style.fontSize = ismobile ? size * 0.05 : size * 0.03
+  score.style.fontSize = ismobile ? size * 0.06 : size * 0.03
   score.style.color = 'rgb(150,150,150)'
   score.innerHTML = 'top score '
   wrapper.appendChild(score)
@@ -177,12 +178,13 @@ module.exports = function(container, set) {
       animate({
         el: play,
         fill: ['rgb(100,100,100)', 'rgb(45,45,45)'],
-        duration: 300,
-        easing: 'easeInQuad'
+        duration: 50,
+        easing: 'easeInQuad',
+        complete: function () {
+          events.emit('click', selected)
+        }
       })
-      events.emit('click', selected)
     }
-
   })
 
   wrapper.style.opacity = 0
@@ -191,10 +193,11 @@ module.exports = function(container, set) {
   return {
     hide: function() {
       if (wrapper.style.opacity == 1) {
+        console.log('hiding levels for real')
         animate({
           el: wrapper,
           opacity: [1, 0],
-          duration: 300,
+          duration: 100,
           easing: 'easeInQuad',
           complete: function() {
             wrapper.style.pointerEvents = 'none'

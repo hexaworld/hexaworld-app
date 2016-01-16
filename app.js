@@ -40,11 +40,14 @@ module.exports = function (id, set) {
   })
 
   levels.events.on('click', function (selection) {
+    console.log('hiding levels')
+    levels.hide()
     setTimeout(function () {
-      levels.hide()
       game.reload(set[selection])
-      game.show()
-    }, 100)
+      setTimeout(function () {
+        game.show()
+      }, 50)
+    }, 150)
   })
 
   return {
