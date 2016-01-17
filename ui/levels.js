@@ -44,7 +44,7 @@ module.exports = function(container, set) {
 
   var box = {
     left: ismobile ? size * 0.06 : size * 0.5,
-    top: ismobile ? height * 0.25 : size * 0.07,
+    top: ismobile ? height * 0.27 : size * 0.07,
     width: ismobile ? size * 0.85 : size * 0.45,
     height: ismobile ? height * 0.6 : height * 0.8,
     margin: ismobile ? 0.2 : 0.2,
