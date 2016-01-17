@@ -3,7 +3,7 @@ var _ = require('lodash')
 var levels = _.range(12).map(function() {
 
   var config = {
-    name: 'foo',
+    name: 'longname',
     lives: parseInt(Math.random() * 3) + 1,
     moves: parseInt(Math.random() * 6) + 1,
     difficulty: 1

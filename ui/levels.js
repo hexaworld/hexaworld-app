@@ -23,9 +23,9 @@ module.exports = function(container, set) {
   }
 
   var wrapper = document.createElement('div')
-  wrapper.style.width = ismobile ? '95%' : '85%'
-  wrapper.style.height = ismobile ? '90%' : '100%'
-  wrapper.style.top = ismobile ? '10%' : '0%'
+  wrapper.style.width = ismobile ? '96%' : '85%'
+  wrapper.style.height = ismobile ? '94%' : '100%'
+  wrapper.style.top = ismobile ? '6%' : '0%'
   wrapper.style.left = 0
   wrapper.style.right = 0
   wrapper.style.margin = '0 auto'
@@ -35,9 +35,9 @@ module.exports = function(container, set) {
   var size = wrapper.clientWidth
 
   var box = {
-    left: ismobile ? size * 0.1 : size * 0.5,
-    top: ismobile ? size * 0.45 : size * 0.07,
-    width: ismobile ? size * 0.8 : size * 0.45,
+    left: ismobile ? size * 0.05 : size * 0.5,
+    top: ismobile ? size * 0.46 : size * 0.07,
+    width: ismobile ? size * 0.9 : size * 0.45,
     height: ismobile ? window.innerHeight * 0.6 : window.innerHeight * 0.8,
     margin: ismobile ? 0.2 : 0.2
   }
@@ -54,9 +54,9 @@ module.exports = function(container, set) {
 
   var name = document.createElement('div')
   name.style.position = 'absolute'
-  name.style.top = ismobile ? size * 0 : size * 0.3
+  name.style.top = ismobile ? size * 0.05 : size * 0.3
   name.style.left = ismobile ? box.left : size * 0.1
-  name.style.fontSize = ismobile ? size * 0.16 : size * 0.055
+  name.style.fontSize = ismobile ? size * 0.1 : size * 0.055
   name.style.textTransform = 'uppercase'
   name.innerHTML = 'LEVELNAME'
   wrapper.appendChild(name)
@@ -93,7 +93,7 @@ module.exports = function(container, set) {
   svg.setAttribute('width', hexsize * 2)
   svg.setAttribute('height', hexsize * 2.1)
   svg.style.position = 'absolute'
-  svg.style.top = ismobile ? size * 0.1 : size * 0.07
+  svg.style.top = ismobile ? size * 0.13 : size * 0.07
   if (ismobile) {
     svg.style.right = box.left + hexsize * 0.2
   } else {
