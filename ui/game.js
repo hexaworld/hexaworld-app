@@ -4,14 +4,13 @@ var animate = require('animateplus')
 
 module.exports = function(container, level) {
   var wrapper = document.createElement('div')
-  css(wrapper, {width: '100%', height: '100%', position: 'absolute'})
+  css(wrapper, {height: '100%', width: '100%', position: 'absolute'})
   container.appendChild(wrapper)
 
   var game = document.createElement('div')
   game.id = 'game-container'
-  css(game, {width: '100%', height: '100%', margin: '0px auto', position: 'absolute'})
+  css(game, {height: '100%'})
   wrapper.appendChild(game)
-
   var play = hexaworld('game-container', level)
 
   css(wrapper, {opacity: 0, pointerEvents: 'none'})

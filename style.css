@@ -7,9 +7,9 @@ body {
   font-weight: 300;
   background: rgb(10,10,10);
   margin: 0px;
+  padding: 0px;
 }
 
 #container {
 	height: 100%;
-	width: 100%;
 }
