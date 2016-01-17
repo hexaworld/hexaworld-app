@@ -8,6 +8,7 @@
     "server": "nodemon --exec http-server -e js,css,html -p 8081",
     "watch": "watchify index.js -o bundle.js",
     "build": "browserify index.js -o bundle.js",
+    "deploy": "surge . hexaworld-app.surge.sh",
     "test": "standard"
   },
   "repository": {
