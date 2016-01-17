@@ -22,9 +22,9 @@ module.exports = function(container, state) {
   var colors = {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
-    backStroke: 'rgb(155,155,155)',
-    buttonStroke: 'rgb(240,240,240)',
-    buttonFill: 'rgb(30,30,30)',
+    backStroke: 'rgb(120,120,120)',
+    buttonStroke: 'none',
+    buttonFill: 'rgb(10,10,10)',
     buttonFillSelect: 'rgb(120,120,120)'
   }
 
@@ -76,8 +76,7 @@ module.exports = function(container, state) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute('points', points.join(' '))
-  console.log(Math.sqrt(width * 0.04))
-  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: 4})
+  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: 5})
   svg.appendChild(hex)
 
   var settings = document.createElement('div')
@@ -105,7 +104,7 @@ module.exports = function(container, state) {
     css(item, {marginBottom: ismobile ? size * 0.05 : size * 0.02})
     options.appendChild(item)
 
-    var iconsize = ismobile ? size * 0.09 : size * 0.03
+    var iconsize = ismobile ? size * 0.09 : size * 0.035
 
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', iconsize * 4.2)

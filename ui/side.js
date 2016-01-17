@@ -6,8 +6,8 @@ var EventEmitter = require('events').EventEmitter
 module.exports = function(container) {
   var width = container.clientWidth
   var height = container.clientHeight
-  var size = height * 0.6
   var ismobile = width < height
+  var size = ismobile ? width * 1.0: height * 0.6
 
   var events = new EventEmitter()
 
@@ -15,7 +15,7 @@ module.exports = function(container) {
     text: 'rgb(200,200,200)',
     textSelected: 'rgb(255,255,255)',
     fill: 'rgb(10,10,10)',
-    stroke: 'rgb(150,150,150)'
+    stroke: 'none'
   }
 
   var offset = ismobile ? 0 : Math.PI / 6

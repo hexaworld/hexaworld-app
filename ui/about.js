@@ -10,7 +10,8 @@ module.exports = function(container) {
 
   var colors = {
     text1: 'rgb(150,150,150)',
-    text2: 'rgb(220,220,220)'
+    text2: 'rgb(220,220,220)',
+    stroke: 'rgb(120,120,120)'
   }
 
   var wrapper = document.createElement('div')
@@ -55,8 +56,8 @@ module.exports = function(container) {
   hex.setAttribute('points', points.join(' '))
   css(hex, {
     fill: 'none',
-    stroke: colors.text1,
-    strokeWidth: 4
+    stroke: colors.stroke,
+    strokeWidth: 5
   })
   
   var about = document.createElement('div')
