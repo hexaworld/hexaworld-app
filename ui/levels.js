@@ -56,7 +56,7 @@ module.exports = function(container, set) {
     hexsize = (box.height / (4 * (2 + box.margin))) - 0.001 * height
     box.margin = ismobile ? ((box.width / 3) - (hexsize * 2)) / hexsize : box.margin
     box.width = ismobile ? (3 * (hexsize * 2 + box.margin * hexsize)) : box.width,
-    box.aspect = ismobile ? 0.4 * box.width / box.height : 1
+    box.aspect = ismobile ? 0.2 * box.width / box.height : 1
   }
   box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 + box.margin * hexsize / 2: box.left
 
