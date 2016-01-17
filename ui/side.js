@@ -11,6 +11,13 @@ module.exports = function(container) {
 
   var events = new EventEmitter()
 
+  var colors = {
+    text: 'rgb(200,200,200)',
+    textSelected: 'rgb(255,255,255)',
+    fill: 'rgb(10,10,10)',
+    stroke: 'rgb(150,150,150)'
+  }
+
   var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
     var dx = (ismobile ? 0.45 : 0.32) * size * Math.cos(i * 2 * Math.PI / 6 + offset) - size / 6
@@ -37,9 +44,9 @@ module.exports = function(container) {
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
   css(hex, {
-    fill: 'rgb(10,10,10)',
-    stroke: 'rgb(155,155,155)',
-    strokeWidth: 5,
+    fill: colors.fill,
+    stroke: colors.stroke,
+    strokeWidth: 4,
     strokeLinejoin: 'round',
     cursor: 'pointer',
     webkitTapHighlightColor: 'rgba(0,0,0,0)',
@@ -49,19 +56,19 @@ module.exports = function(container) {
 
   var menu = document.createElementNS('http://www.w3.org/2000/svg', 'text')
   menu.innerHTML = 'MENU'
-  menu.setAttribute("fill", 'rgb(200,200,200)')
-  menu.setAttribute("font-size", ismobile ? size * 0.07 : size * 0.0625)
+  menu.setAttribute("fill", colors.text)
+  menu.setAttribute("font-size", ismobile ? width * 0.066 : size * 0.0625)
   menu.setAttribute("text-anchor", 'middle')
   menu.setAttribute("dominant-baseline", 'hanging')
   var t = ismobile
-    ? 'translate(' + size * 0.83 + ',' + size * 0.035 + ')rotate(0)'
+    ? 'translate(' + size * 0.87 + ',' + size * 0.035 + ')rotate(0)'
     : 'translate(' + size * 0.025 + ',' + size * 0.5 + ')rotate(-90)'
   menu.setAttribute('transform', t)
   css(menu, {opacity: 0, pointerEvents: 'menu'})
   svg.appendChild(menu)
 
   hex.onclick = function() {
-    menu.setAttribute("fill", "rgb(255,255,255)")
+    menu.setAttribute("fill", colors.textSelected)
     events.emit('click', true)
   }
 
@@ -72,7 +79,7 @@ module.exports = function(container) {
     hide: function() {
       animate({
         el: hex,
-        translateX: ismobile ? [size * 1.09, size * 2] : [0, -100],
+        translateX: ismobile ? [size * 1.16, size * 2] : [0, -100],
         translateY: ismobile ? [size * -0.636, size * -0.636] : [0, 0],
         opacity: [1, 0],
         duration: 200,
@@ -86,10 +93,10 @@ module.exports = function(container) {
     },
 
     show: function() {
-      menu.setAttribute("fill", "rgb(200,200,200)")
+      menu.setAttribute("fill", colors.text)
       animate({
         el: hex,
-        translateX: ismobile ? [size * 2, size * 1.09] : [-100, 0],
+        translateX: ismobile ? [size * 2, size * 1.16] : [-100, 0],
         translateY: ismobile ? [size * -0.636, size * -0.636] : [0, 0],
         opacity: [0, 1],
         duration: 300,

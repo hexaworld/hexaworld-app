@@ -5,10 +5,11 @@ var EventEmitter = require('events').EventEmitter
 var ismobile = (window.outerWidth < 480) ? true : false
 
 module.exports = function(container) {
+  var width = container.clientWidth
   var height = container.clientHeight
 
-  if (height * 0.7 > container.clientWidth) {
-    height = container.clientWidth * (1 / 0.7)
+  if (height * 0.7 > width) {
+    height = width * (1 / 0.7)
   }
 
   var wrapper = document.createElement('div')
@@ -51,7 +52,7 @@ module.exports = function(container) {
   hex.setAttribute("points", points.join(' '))
   hex.style.fill = 'none'
   hex.style.stroke = 'rgb(150,150,150)'
-  hex.style.strokeWidth = '5'
+  hex.style.strokeWidth = 4
   hex.style.strokeLinejoin = 'round'
   hex.style.transformOrigin = 'center'
   svg.appendChild(hex)

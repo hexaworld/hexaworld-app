@@ -1,7 +1,11 @@
+var css = require('dom-css')
 var _ = require('lodash')
 var animate = require('animateplus')
 
 module.exports = function(container) {
+  var height = window.innerHeight
+  var width = window.innerWidth
+  var menuwidth = document.getElementById('menu').clientWidth
   var ismobile = window.innerWidth < window.innerHeight
 
   var colors = {
@@ -10,21 +14,19 @@ module.exports = function(container) {
   }
 
   var wrapper = document.createElement('div')
-  wrapper.style.width = '85%'
-  wrapper.style.height = ismobile ? '80%' : '90%'
-  wrapper.style.top = ismobile ? '20%' : '5%'
-  wrapper.style.bottom = '5%'
-  wrapper.style.left = 0
-  wrapper.style.right = 0
-  wrapper.style.margin = '0 auto'
-  wrapper.style.position = 'absolute'
-  wrapper.style.pointerEvents = 'none'
   container.appendChild(wrapper)
-
+  css(wrapper,{
+    width: '85%',
+    height: ismobile ? '80%' : '90%',
+    top: ismobile ? '10%' : '5%',
+    left: 0, right: 0,
+    margin: '0px auto',
+    position: 'absolute',
+    pointerEvents: 'none'
+  })
+ 
   var size = wrapper.clientWidth
 
-  var height = window.innerHeight
-  var width = window.innerWidth
   var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
     var dx = 0.8 * height * Math.cos(i * 2 * Math.PI / 6 + offset) + height * 0.7
@@ -34,46 +36,54 @@ module.exports = function(container) {
   points = [points[3], points[2], points[1], points[2]]
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  wrapper.appendChild(svg)
   svg.setAttribute('width', height * 1.2)
   svg.setAttribute('height', height * 1.2)
-  svg.style.position = 'absolute'
-  svg.style.display = 'block'
-  svg.style.pointerEvents = 'none'
-  svg.style.position = 'fixed'
-  svg.style.bottom = ismobile ? height * 0.05 : -height * 0.035
-  var menuwidth = document.getElementById('menu').clientWidth
-  svg.style.left = ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8
-  svg.style.pointerEvents = 'none'
-  wrapper.appendChild(svg)
+  css(svg, {
+    position: 'absolute',
+    display: 'block',
+    pointerEvents: 'none',
+    position: 'fixed',
+    bottom: ismobile ? height * 0.05 : -height * 0.035,
+    left: ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8,
+    pointerEvents: 'none'
+  })
+  
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-  hex.setAttribute('points', points.join(' '))
-  hex.style.fill = 'none'
-  hex.style.stroke = colors.text1
-  hex.style.strokeWidth = '5'
   svg.appendChild(hex)
-
+  hex.setAttribute('points', points.join(' '))
+  css(hex, {
+    fill: 'none',
+    stroke: colors.text1,
+    strokeWidth: 4
+  })
+  
   var about = document.createElement('div')
-  about.style.position = 'absolute'
-  about.style.top = ismobile ? height * 0.5 : size * 0.06
-  about.style.left = ismobile ? size * 0.3 : width * 0.52 - menuwidth * 0.5 * 0.8
-  about.style.fontSize = ismobile ? size * 0.15 : size * 0.06
-  about.style.fontColor = colors.text1
   about.innerHTML = 'ABOUT'
+  css(about, {
+    position: 'absolute',
+    left: ismobile ? size * 0.3 : width * 0.52 - menuwidth * 0.5 * 0.8,
+    fontSize: ismobile ? size * 0.15 : size * 0.06,
+    fontColor: colors.text1
+  })
+  if (!ismobile) css(about, {top: size * 0.06})
+  if (ismobile) css(about, {bottom: size * 0.2})
   wrapper.appendChild(about)
 
   var text = document.createElement('p')
-  text.style.position = 'absolute'
-  text.style.top = ismobile ? 0 : size * 0.14
-  text.style.left = ismobile ? size * 0.08 : width * 0.52 - menuwidth * 0.5 * 0.8
-  text.style.width = ismobile ? size * 0.9 : size * 0.5
-  text.style.color = colors.text1
-  text.style.fontSize = ismobile ? size * 0.06 : Math.sqrt(size * 0.6)
-  text.innerHTML = "<span style='color: " + colors.text2 + "'>hexaworld</span> is a game about learning to explore <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: " + colors.text1 + "' href='https://github.com/hexaworld'>github</a>"
   wrapper.appendChild(text)
-
-  wrapper.style.opacity = 0
-  wrapper.style.pointerEvents = 'none'
+  text.innerHTML = "<span style='color: " + colors.text2 + "'>hexaworld</span> is a game about learning to explore <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: " + colors.text1 + "' href='https://github.com/hexaworld'>github</a><br>\n contact us <a style='color: " + colors.text1 + "' href='https://twitter.com/hexaworldgame'>@hexaworldgame</a>"
+  css(text, {
+    position: 'absolute',
+    top: ismobile ? size * 0.06 : size * 0.14,
+    left: ismobile ? size * 0.04 : width * 0.52 - menuwidth * 0.5 * 0.8,
+    width: ismobile ? size * 0.96 : size * 0.5,
+    color: colors.text1,
+    fontSize: ismobile ? size * 0.06 : Math.sqrt(size * 0.6)
+  })
+  
+  css(wrapper, {opacity: 0, pointerEvents: 'none'})
 
   return {
     hide: function() {

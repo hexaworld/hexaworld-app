@@ -31,8 +31,11 @@ module.exports = function(container, state) {
   var wrapper = document.createElement('div')
   wrapper.id = 'settings'
   css(wrapper, {
-    width: '85%', height: ismobile ? '80%' : '90%',
-    bottom: '5%', left: 0, right: 0, top: ismobile ? '20%' : '5%',
+    width: '85%', 
+    height: ismobile ? '80%' : '90%',
+    top: ismobile ? '10%' : '5%',
+    bottom: '5%', 
+    left: 0, right: 0, 
     margin: '0 auto',
     position: 'absolute',
     pointerEvents: 'none'
@@ -73,25 +76,27 @@ module.exports = function(container, state) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute('points', points.join(' '))
-  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: '5'})
+  console.log(Math.sqrt(width * 0.04))
+  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: 4})
   svg.appendChild(hex)
 
   var settings = document.createElement('div')
   settings.innerHTML = 'SETTINGS'
   css(settings, {
     position: 'absolute',
-    top: ismobile ? height * 0.5 : size * 0.06,
     left: ismobile ? size * 0 : size * 0.15,
     fontSize: ismobile ? size * 0.15 : size * 0.06,
     fontColor: colors.text1
   })
+  if (!ismobile) css(settings, {top: size * 0.06})
+  if (ismobile) css(settings, {bottom: size * 0.2})
   wrapper.appendChild(settings)
 
   var options = document.createElement('div')
   css(options, {
     position: 'absolute', 
-    top: ismobile ? 0 : size * 0.16,
-    left:  ismobile ? size * 0 : size * 0.15
+    top: ismobile ? size * 0.1 : size * 0.16,
+    left: ismobile ? size * 0 : size * 0.15
   })
   wrapper.appendChild(options)
 
@@ -100,7 +105,7 @@ module.exports = function(container, state) {
     css(item, {marginBottom: ismobile ? size * 0.05 : size * 0.02})
     options.appendChild(item)
 
-    var iconsize = ismobile ? size * 0.1 : size * 0.03
+    var iconsize = ismobile ? size * 0.09 : size * 0.03
 
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', iconsize * 4.2)
@@ -132,7 +137,7 @@ module.exports = function(container, state) {
     var name = document.createElement('span')
     name.innerHTML = key.name
     css(name, {
-      fontSize: ismobile ? Math.sqrt(size * 1.8) : Math.sqrt(size * 1),
+      fontSize: ismobile ? Math.sqrt(size * 1.6) : Math.sqrt(size * 1),
       marginLeft: ismobile ? size * 0.05 : size * 0.02,
       verticalAlign: 'middle',
       fontColor: colors.text1

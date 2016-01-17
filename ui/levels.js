@@ -1,3 +1,4 @@
+var css = require('dom-css')
 var _ = require('lodash')
 var animate = require('animateplus')
 var EventEmitter = require('events').EventEmitter
@@ -12,7 +13,9 @@ function hexsvg(size) {
 }
 
 module.exports = function(container, set) {
-  var ismobile = window.innerWidth < window.innerHeight
+  var width = container.clientWidth
+  var height = container.clientHeight
+  var ismobile = width < height
 
   var colors = {
     text1: 'rgb(150,150,150)',
@@ -23,139 +26,156 @@ module.exports = function(container, set) {
   }
 
   var wrapper = document.createElement('div')
-  wrapper.style.width = ismobile ? '96%' : '85%'
-  wrapper.style.height = ismobile ? '94%' : '100%'
-  wrapper.style.top = ismobile ? '6%' : '0%'
-  wrapper.style.left = 0
-  wrapper.style.right = 0
-  wrapper.style.margin = '0 auto'
-  wrapper.style.position = 'absolute'
   container.appendChild(wrapper)
+  wrapper.id = 'levels'
+  css(wrapper, {
+    width: ismobile ? '96%' : '85%',
+    height: ismobile ? '94%' : '100%',
+    top: ismobile ? '6%' : '0%',
+    left: 0, right: 0,
+    margin: '0px auto',
+    position: 'absolute'
+  })
 
   var size = wrapper.clientWidth
 
   var box = {
-    left: ismobile ? size * 0.05 : size * 0.5,
-    top: ismobile ? size * 0.46 : size * 0.07,
-    width: ismobile ? size * 0.9 : size * 0.45,
-    height: ismobile ? window.innerHeight * 0.6 : window.innerHeight * 0.8,
-    margin: ismobile ? 0.2 : 0.2
+    left: ismobile ? size * 0.06 : size * 0.5,
+    top: ismobile ? height * 0.25 : size * 0.07,
+    width: ismobile ? size * 0.85 : size * 0.45,
+    height: ismobile ? height * 0.6 : height * 0.8,
+    margin: ismobile ? 0.2 : 0.2,
+    aspect: 1
   }
 
   var hexsize = (box.width / (3 * (2 + box.margin)))
   if ((hexsize * 2 + box.margin * hexsize) * 4 > box.height) {
-    hexsize = (box.height / (4 * (2 + box.margin)))
-    box.width = (3 * (hexsize * 2 + box.margin * hexsize))
-    box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 : box.left
+    hexsize = (box.height / (4 * (2 + box.margin))) - 0.001 * height
+    box.margin = ismobile ? ((box.width / 3) - (hexsize * 2)) / hexsize : box.margin
+    box.width = ismobile ? (3 * (hexsize * 2 + box.margin * hexsize)) : box.width,
+    box.aspect = 0.7 * box.width / box.height
   }
+  box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 + box.margin * hexsize / 2: box.left
 
   var selected = 0
   var events = new EventEmitter()
 
   var name = document.createElement('div')
-  name.style.position = 'absolute'
-  name.style.top = ismobile ? size * 0.05 : size * 0.3
-  name.style.left = ismobile ? box.left : size * 0.1
-  name.style.fontSize = ismobile ? size * 0.1 : size * 0.055
-  name.style.textTransform = 'uppercase'
-  name.innerHTML = 'LEVELNAME'
   wrapper.appendChild(name)
-
+  name.innerHTML = 'LEVELNAME'
+  css(name, {
+    position: 'absolute',
+    top: ismobile ? size * 0.05 : size * 0.3,
+    left: ismobile ? box.left : size * 0.1,
+    fontSize: ismobile ? size * 0.1 : size * 0.055,
+    textTransform: 'uppercase'
+  })
+  
   var moves = document.createElement('div')
-  moves.style.position = 'absolute'
-  moves.style.top = ismobile ? size * 0.19 : size * 0.4
-  moves.style.left = ismobile ? box.left : size * 0.1
-  moves.style.fontSize = ismobile ? size * 0.06 : size * 0.03
-  moves.innerHTML = 'moves '
-  moves.style.color = colors.text1
   wrapper.appendChild(moves)
+  moves.innerHTML = 'moves '
+  css(moves, {
+    position: 'absolute',
+    top: ismobile ? size * 0.19 : size * 0.4,
+    left: ismobile ? box.left : size * 0.1,
+    fontSize: ismobile ? size * 0.06 : size * 0.03,
+    color: colors.text1
+  })
 
   var movesval = document.createElement('span')
-  movesval.innerHTML = '6'
-  movesval.style.color = colors.text2
   moves.appendChild(movesval)
+  movesval.innerHTML = '6'
+  css(movesval, {color: colors.text2})
 
   var score = document.createElement('div')
-  score.style.position = 'absolute'
-  score.style.top = ismobile ? size * 0.28 : size * 0.45
-  score.style.left = ismobile ? box.left : size * 0.1
-  score.style.fontSize = ismobile ? size * 0.06 : size * 0.03
-  score.style.color = colors.text1
-  score.innerHTML = 'top score '
   wrapper.appendChild(score)
+  score.innerHTML = 'top score '
+  css(score, {
+    position: 'absolute',
+    top: ismobile ? size * 0.28 : size * 0.45,
+    left: ismobile ? box.left : size * 0.1,
+    fontSize: ismobile ? size * 0.06 : size * 0.03,
+    color: colors.text1
+  })
 
   var scoreval = document.createElement('span')
-  scoreval.innerHTML = '10000'
-  scoreval.style.color = colors.text2
   score.appendChild(scoreval)
+  scoreval.innerHTML = '10000'
+  css(scoreval, {color: colors.text2})
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  wrapper.appendChild(svg)
   svg.setAttribute('width', hexsize * 2)
   svg.setAttribute('height', hexsize * 2.1)
-  svg.style.position = 'absolute'
-  svg.style.top = ismobile ? size * 0.13 : size * 0.07
-  if (ismobile) {
-    svg.style.right = box.left + hexsize * 0.2
-  } else {
-    svg.style.left = size * 0.1
-  }
-  
-  wrapper.appendChild(svg)
+  css(svg, {
+    position: 'absolute',
+    top: ismobile ? size * 0.13 : size * 0.07
+  })
+  if (ismobile) css(svg, {left: box.left + 2.02 * (hexsize * 2 + box.margin * hexsize)})
+  if (!ismobile) css(svg, {left: size * 0.1})
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+  svg.appendChild(play)
   play.setAttribute('points', hexsvg(hexsize))
   play.setAttribute('fill', 'rgb(30,30,30)')
-  play.style.stroke = colors.buttonStroke
-  play.style.strokeWidth = '4'
-  play.style.strokeLinejoin = 'round'
-  play.style.transformOrigin = 'center'
-  play.style.cursor = 'pointer'
-  play.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
-  svg.appendChild(play)
+  css(play, {
+    stroke: colors.buttonStroke,
+    strokeWidth: 3,
+    strokeLinejoin: 'round',
+    transformOrigin: 'center',
+    cursor: 'pointer',
+    webkitTapHighlightColor: 'rgba(0,0,0,0)'
+  })
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+  svg.appendChild(playlabel)
+  playlabel.innerHTML = 'PLAY'
   playlabel.setAttribute("fill", colors.text2)
-  playlabel.setAttribute("font-size", hexsize * 0.5)
+  playlabel.setAttribute("font-size", ismobile ? width * 0.066 : hexsize * 0.5)
   playlabel.setAttribute("text-anchor", 'middle')
-  playlabel.setAttribute("dominant-baseline", 'middle')
+  playlabel.setAttribute("dominant-baseline", 'central')
   var t = ismobile
     ? 'translate(' + hexsize + ',' + hexsize + ')'
     : 'translate(' + hexsize + ',' + hexsize + ')'
   playlabel.setAttribute('transform', t)
-  playlabel.style.pointerEvents = 'none'
-  playlabel.innerHTML = 'PLAY'
-  svg.appendChild(playlabel)
-
+  css(playlabel, {pointerEvents: 'none'}) 
+  
   var levelgroup = document.createElement('div')
-  levelgroup.style.left = box.left
-  levelgroup.style.top = box.top
-  levelgroup.style.width = box.width
-  levelgroup.style.height = box.height
-  levelgroup.style.position = 'absolute'
   wrapper.appendChild(levelgroup)
+  css(levelgroup, {
+    left: box.left,
+    top: box.top,
+    width: box.width,
+    height: box.height,
+    position: 'absolute'
+  })
 
   _.range(set.length).forEach(function (i) {
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    levelgroup.appendChild(svg)
     svg.setAttribute('width', hexsize * 2)
     svg.setAttribute('height', hexsize * 2.1)
-    svg.style.position = 'relative'
-    svg.style.display = 'inline'
-    svg.style.marginRight = box.margin * hexsize
-    svg.style.marginBottom = box.margin * hexsize
-    levelgroup.appendChild(svg)
+    css(svg, {
+      position: 'relative',
+      display: 'inline',
+      marginRight: box.margin * hexsize,
+      marginBottom: box.aspect * box.margin * hexsize
+    })
 
     var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+    svg.appendChild(hex)
+    hex.id = 'level-hex-' + i
     hex.setAttribute("points", hexsvg(hexsize))
     hex.setAttribute('data-id', i)
     hex.setAttribute('class', 'level-hex')
-    hex.id = 'level-hex-' + i
-    hex.style.stroke = colors.buttonStroke
-    hex.style.strokeWidth = '4'
-    hex.style.strokeLinejoin = 'round'
-    hex.style.transformOrigin = 'center'
-    hex.style.cursor = 'pointer'
-    hex.style.webkitTapHighlightColor = 'rgba(0,0,0,0)'
-    svg.appendChild(hex)
+    css(hex, {
+      stroke: colors.buttonStroke,
+      strokeWidth: 3,
+      strokeLinejoin: 'round',
+      transformOrigin: 'center',
+      cursor: 'pointer',
+      webkitTapHighlightColor: 'rgba(0,0,0,0)'
+    })
 
     function update() {
       name.innerHTML = set[selected].config.name
@@ -195,8 +215,7 @@ module.exports = function(container, set) {
     }
   })
 
-  wrapper.style.opacity = 0
-  wrapper.style.pointerEvents = 'none'
+  css(wrapper, {opacity: 0, pointerEvents: 'none'})
 
   return {
     hide: function() {
