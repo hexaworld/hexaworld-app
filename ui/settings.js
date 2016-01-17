@@ -19,6 +19,13 @@ module.exports = function(container, state) {
   var ismobile = width < height
   var menuwidth = document.getElementById('menu').clientWidth
 
+  var colors = {
+    backStroke: 'rgb(155,155,155)',
+    buttonStroke: 'rgb(240,240,240)',
+    buttonFill: 'rgb(30,30,30)',
+    buttonFillSelect: 'rgb(120,120,120)'
+  }
+
   var wrapper = document.createElement('div')
   wrapper.id = 'settings'
   css(wrapper, {
@@ -64,7 +71,7 @@ module.exports = function(container, state) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute('points', points.join(' '))
-  css(hex, {fill: 'none', stroke: 'rgb(155,155,155)', strokeWidth: '5'})
+  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: '5'})
   svg.appendChild(hex)
 
   var settings = document.createElement('div')
@@ -105,17 +112,17 @@ module.exports = function(container, state) {
     })
     item.appendChild(svg)
 
-    var button = {stroke: 'rgb(240,240,240)', strokeWidth: 3, cursor: 'pointer'}
+    var button = {stroke: colors.buttonStroke, strokeWidth: 3, cursor: 'pointer'}
 
     var hex1 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
     hex1.setAttribute('points', hexagon(iconsize).join(' '))
-    css(hex1, {fill: key.value ? 'rgb(45,45,45)' : 'rgb(140,140,140)'})
+    css(hex1, {fill: key.value ? colors.buttonFill : colors.buttonFillSelect})
     css(hex1, button)
     svg.appendChild(hex1)   
 
     var hex2 = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
     hex2.setAttribute('points', hexagon(iconsize, [iconsize * 2.2, 0]).join(' '))
-    css(hex2, {fill: key.value ? 'rgb(140,140,140)' : 'rgb(45,45,45)'})
+    css(hex2, {fill: key.value ? colors.buttonFillSelect : colors.buttonFill})
     css(hex2, button)
     svg.appendChild(hex2)
     
@@ -132,14 +139,14 @@ module.exports = function(container, state) {
     item.appendChild(br)
 
     hex1.onclick = function () {
-      css(hex1, {fill: 'rgb(140,140,140)'})
-      css(hex2, {fill: 'rgb(45,45,45)'})
+      css(hex1, {fill: colors.buttonFillSelect})
+      css(hex2, {fill: colors.buttonFill})
       events.emit('click', {name: key.name, value: false})
     }
 
     hex2.onclick = function () {
-      css(hex1, {fill: 'rgb(45,45,45)'})
-      css(hex2, {fill: 'rgb(140,140,140)'})
+      css(hex1, {fill: colors.buttonFill})
+      css(hex2, {fill: colors.buttonFillSelect})
       events.emit('click', {name: key.name, value: true})
     }
   }

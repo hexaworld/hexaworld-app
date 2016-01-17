@@ -14,6 +14,14 @@ function hexsvg(size) {
 module.exports = function(container, set) {
   var ismobile = window.innerWidth < window.innerHeight
 
+  var colors = {
+    text1: 'rgb(150,150,150)',
+    text2: 'rgb(220,220,220)',
+    buttonStroke: 'rgb(240,240,240)',
+    buttonFill: 'rgb(30,30,30)',
+    buttonFillSelect: 'rgb(120,120,120)'
+  }
+
   var wrapper = document.createElement('div')
   wrapper.style.width = ismobile ? '95%' : '85%'
   wrapper.style.height = ismobile ? '90%' : '100%'
@@ -59,12 +67,12 @@ module.exports = function(container, set) {
   moves.style.left = ismobile ? box.left : size * 0.1
   moves.style.fontSize = ismobile ? size * 0.06 : size * 0.03
   moves.innerHTML = 'moves '
-  moves.style.color = 'rgb(150,150,150)'
+  moves.style.color = colors.text1
   wrapper.appendChild(moves)
 
   var movesval = document.createElement('span')
   movesval.innerHTML = '6'
-  movesval.style.color = 'rgb(220,220,220)'
+  movesval.style.color = colors.text2
   moves.appendChild(movesval)
 
   var score = document.createElement('div')
@@ -72,13 +80,13 @@ module.exports = function(container, set) {
   score.style.top = ismobile ? size * 0.28 : size * 0.45
   score.style.left = ismobile ? box.left : size * 0.1
   score.style.fontSize = ismobile ? size * 0.06 : size * 0.03
-  score.style.color = 'rgb(150,150,150)'
+  score.style.color = colors.text1
   score.innerHTML = 'top score '
   wrapper.appendChild(score)
 
   var scoreval = document.createElement('span')
   scoreval.innerHTML = '10000'
-  scoreval.style.color = 'rgb(220,220,220)'
+  scoreval.style.color = colors.text2
   score.appendChild(scoreval)
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -95,9 +103,9 @@ module.exports = function(container, set) {
   wrapper.appendChild(svg)
 
   var play = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-  play.setAttribute("points", hexsvg(hexsize))
-  play.setAttribute("fill", 'rgb(45,45,45)')
-  play.style.stroke = 'rgb(240,240,240)'
+  play.setAttribute('points', hexsvg(hexsize))
+  play.setAttribute('fill', 'rgb(30,30,30)')
+  play.style.stroke = colors.buttonStroke
   play.style.strokeWidth = '4'
   play.style.strokeLinejoin = 'round'
   play.style.transformOrigin = 'center'
@@ -106,7 +114,7 @@ module.exports = function(container, set) {
   svg.appendChild(play)
 
   var playlabel = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-  playlabel.setAttribute("fill", 'rgb(240,240,240)')
+  playlabel.setAttribute("fill", colors.text2)
   playlabel.setAttribute("font-size", hexsize * 0.5)
   playlabel.setAttribute("text-anchor", 'middle')
   playlabel.setAttribute("dominant-baseline", 'middle')
@@ -141,7 +149,7 @@ module.exports = function(container, set) {
     hex.setAttribute('data-id', i)
     hex.setAttribute('class', 'level-hex')
     hex.id = 'level-hex-' + i
-    hex.style.stroke = 'rgb(240,240,240)'
+    hex.style.stroke = colors.buttonStroke
     hex.style.strokeWidth = '4'
     hex.style.strokeLinejoin = 'round'
     hex.style.transformOrigin = 'center'
@@ -155,11 +163,11 @@ module.exports = function(container, set) {
       scoreval.innerHTML = 0
       var items = document.getElementsByClassName('level-hex')
       _.range(items.length).forEach( function(i) {
-        document.getElementById('level-hex-' + i).setAttribute('fill', 'rgb(45,45,45)')
+        document.getElementById('level-hex-' + i).setAttribute('fill', colors.buttonFill)
       })
       animate({
         el: document.getElementById('level-hex-' + selected),
-        fill: ['rgb(45,45,45)', 'rgb(100,100,100)'],
+        fill: [colors.buttonFill, colors.buttonFillSelect],
         duration: 150,
         easing: 'easeInQuad'
       })
@@ -177,7 +185,7 @@ module.exports = function(container, set) {
     play.onclick = function(item) {
       animate({
         el: play,
-        fill: ['rgb(100,100,100)', 'rgb(45,45,45)'],
+        fill: [colors.buttonFillSelect, colors.buttonFill],
         duration: 50,
         easing: 'easeInQuad',
         complete: function () {
