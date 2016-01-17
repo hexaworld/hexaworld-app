@@ -201,7 +201,6 @@ module.exports = function(container, set) {
   return {
     hide: function() {
       if (wrapper.style.opacity == 1) {
-        console.log('hiding levels for real')
         animate({
           el: wrapper,
           opacity: [1, 0],

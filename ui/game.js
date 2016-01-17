@@ -24,6 +24,7 @@ module.exports = function(container, level) {
     },
 
     hide: function() {
+      css(wrapper, {pointerEvents: 'none'})
       play.pause()
       if (wrapper.style.opacity == 1) {
         animate({
@@ -43,6 +44,7 @@ module.exports = function(container, level) {
         easing: 'easeInQuad',
         complete: function () {
           play.resume()
+          css(wrapper, {pointerEvents: 'all'})
         }
       })
     }

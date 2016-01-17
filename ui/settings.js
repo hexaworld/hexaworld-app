@@ -20,6 +20,8 @@ module.exports = function(container, state) {
   var menuwidth = document.getElementById('menu').clientWidth
 
   var colors = {
+    text1: 'rgb(150,150,150)',
+    text2: 'rgb(220,220,220)',
     backStroke: 'rgb(155,155,155)',
     buttonStroke: 'rgb(240,240,240)',
     buttonFill: 'rgb(30,30,30)',
@@ -80,7 +82,8 @@ module.exports = function(container, state) {
     position: 'absolute',
     top: ismobile ? height * 0.5 : size * 0.06,
     left: ismobile ? size * 0 : size * 0.15,
-    fontSize: ismobile ? size * 0.15 : size * 0.06
+    fontSize: ismobile ? size * 0.15 : size * 0.06,
+    fontColor: colors.text1
   })
   wrapper.appendChild(settings)
 
@@ -131,7 +134,8 @@ module.exports = function(container, state) {
     css(name, {
       fontSize: ismobile ? Math.sqrt(size * 1.8) : Math.sqrt(size * 1),
       marginLeft: ismobile ? size * 0.05 : size * 0.02,
-      verticalAlign: 'middle'
+      verticalAlign: 'middle',
+      fontColor: colors.text1
     })
     item.appendChild(name)
 

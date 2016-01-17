@@ -40,7 +40,6 @@ module.exports = function (id, set) {
   })
 
   levels.events.on('click', function (selection) {
-    console.log('hiding levels')
     levels.hide()
     setTimeout(function () {
       game.reload(set[selection])

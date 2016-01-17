@@ -4,6 +4,11 @@ var animate = require('animateplus')
 module.exports = function(container) {
   var ismobile = window.innerWidth < window.innerHeight
 
+  var colors = {
+    text1: 'rgb(150,150,150)',
+    text2: 'rgb(220,220,220)'
+  }
+
   var wrapper = document.createElement('div')
   wrapper.style.width = '85%'
   wrapper.style.height = ismobile ? '80%' : '90%'
@@ -44,7 +49,7 @@ module.exports = function(container) {
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute('points', points.join(' '))
   hex.style.fill = 'none'
-  hex.style.stroke = 'rgb(155,155,155)'
+  hex.style.stroke = colors.text1
   hex.style.strokeWidth = '5'
   svg.appendChild(hex)
 
@@ -53,6 +58,7 @@ module.exports = function(container) {
   about.style.top = ismobile ? height * 0.5 : size * 0.06
   about.style.left = ismobile ? size * 0.3 : width * 0.52 - menuwidth * 0.5 * 0.8
   about.style.fontSize = ismobile ? size * 0.15 : size * 0.06
+  about.style.fontColor = colors.text1
   about.innerHTML = 'ABOUT'
   wrapper.appendChild(about)
 
@@ -61,9 +67,9 @@ module.exports = function(container) {
   text.style.top = ismobile ? 0 : size * 0.14
   text.style.left = ismobile ? size * 0.08 : width * 0.52 - menuwidth * 0.5 * 0.8
   text.style.width = ismobile ? size * 0.9 : size * 0.5
-  text.style.color = 'rgb(155,155,155)'
+  text.style.color = colors.text1
   text.style.fontSize = ismobile ? size * 0.06 : Math.sqrt(size * 0.6)
-  text.innerHTML = "<span style='color: rgb(240,240,240)'>hexaworld</span> is a game about learning to explore <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: rgb(155,155,155)' href='https://github.com/hexaworld'>github</a>"
+  text.innerHTML = "<span style='color: " + colors.text2 + "'>hexaworld</span> is a game about learning to explore <br><br>\n designed by neuroscientists to study how humans and mice think <br><br>\n source code on <a style='color: " + colors.text1 + "' href='https://github.com/hexaworld'>github</a>"
   wrapper.appendChild(text)
 
   wrapper.style.opacity = 0
