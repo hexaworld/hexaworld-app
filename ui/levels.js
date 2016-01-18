@@ -21,11 +21,11 @@ module.exports = function(container, set) {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
     buttonStroke: 'none',
-    buttonFill: 'rgb(40,40,40)',
-    buttonFillSelect: 'rgb(120,120,120)',
+    buttonFill: 'rgb(45,45,45)',
+    buttonFillSelect: 'rgb(130,130,130)',
     buttonStroke2: 'none',
-    buttonFill2: 'rgb(40,40,40)',
-    buttonFillSelect2: 'rgb(120,120,120)'
+    buttonFill2: 'rgb(45,45,45)',
+    buttonFillSelect2: 'rgb(130,130,130)'
   }
 
   var wrapper = document.createElement('div')

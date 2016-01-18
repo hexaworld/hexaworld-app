@@ -22,11 +22,11 @@ module.exports = function(container, state) {
   var colors = {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
-    stroke: 'rgb(40,40,40)',
-    fill: 'rgb(40,40,40)',
+    stroke: 'rgb(45,45,45)',
+    fill: 'rgb(45,45,45)',
     buttonStroke: 'none',
-    buttonFill: 'rgb(40,40,40)',
-    buttonFillSelect: 'rgb(120,120,120)'
+    buttonFill: 'rgb(45,45,45)',
+    buttonFillSelect: 'rgb(130,130,130)'
   }
 
   var wrapper = document.createElement('div')

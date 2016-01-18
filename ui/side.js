@@ -14,7 +14,7 @@ module.exports = function(container) {
   var colors = {
     text: 'rgb(200,200,200)',
     textSelected: 'rgb(255,255,255)',
-    fill: 'rgb(40,40,40)',
+    fill: 'rgb(45,45,45)',
     stroke: 'none'
   }
 
