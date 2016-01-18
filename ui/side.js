@@ -7,7 +7,7 @@ module.exports = function(container) {
   var width = container.clientWidth
   var height = container.clientHeight
   var ismobile = width < height
-  var size = ismobile ? width * 1.0: height * 0.6
+  var size = ismobile ? width * 1.0 : height * 0.7
 
   var events = new EventEmitter()
 
