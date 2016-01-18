@@ -21,7 +21,7 @@ var levels = _.range(12).map(function() {
       {translation: [0, -2], paths: [0, 5]},
       {translation: [1, -2], paths: [0, 2], cue: {fill: '#CF5557', scale: 1}}
     ],
-    start: [{translation: [0, 0], rotation: 0}],
+    start: [{translation: [0, -2], rotation: 180}],
     target: [0, 1],
     flash: ['#FF5050', '#FF8900', '#00C3EE', '#64FF00'],
     message: 'welcome to hexaworld! try to find the big white circle'
