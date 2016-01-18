@@ -11,7 +11,8 @@ module.exports = function(container) {
   var colors = {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
-    stroke: 'rgb(120,120,120)'
+    stroke: 'rgb(40,40,40)',
+    fill: 'rgb(40,40,40)'
   }
 
   var wrapper = document.createElement('div')
@@ -31,7 +32,7 @@ module.exports = function(container) {
   var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
     var dx = 0.8 * height * Math.cos(i * 2 * Math.PI / 6 + offset) + height * 0.7
-    var dy = 0.8 * height * Math.sin(i * 2 * Math.PI / 6 + offset) + height * 0.4
+    var dy = 0.8 * height * Math.sin(i * 2 * Math.PI / 6 + offset) + (ismobile ? height * 0.375 : height * 0.4)
     return [dx, dy]
   })
   points = [points[3], points[2], points[1], points[2]]
@@ -45,7 +46,7 @@ module.exports = function(container) {
     display: 'block',
     pointerEvents: 'none',
     position: 'fixed',
-    bottom: ismobile ? height * 0.05 : -height * 0.035,
+    bottom: ismobile ? height * 0 : -height * 0.035,
     left: ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8,
     pointerEvents: 'none'
   })
@@ -53,9 +54,11 @@ module.exports = function(container) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   svg.appendChild(hex)
+  if (ismobile) points = points.concat([points[2], [width + 500, height + 1000], [0, height + 1000]])
+  if (!ismobile) points = [points[2], [width + 100, height + 100], [width, 0]].concat(points)
   hex.setAttribute('points', points.join(' '))
   css(hex, {
-    fill: 'none',
+    fill: colors.fill,
     stroke: colors.stroke,
     strokeWidth: 5
   })

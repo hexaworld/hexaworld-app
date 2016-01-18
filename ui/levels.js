@@ -21,10 +21,10 @@ module.exports = function(container, set) {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
     buttonStroke: 'none',
-    buttonFill: 'rgb(10,10,10)',
+    buttonFill: 'rgb(40,40,40)',
     buttonFillSelect: 'rgb(120,120,120)',
     buttonStroke2: 'none',
-    buttonFill2: 'rgb(10,10,10)',
+    buttonFill2: 'rgb(40,40,40)',
     buttonFillSelect2: 'rgb(120,120,120)'
   }
 
@@ -56,7 +56,7 @@ module.exports = function(container, set) {
     hexsize = (box.height / (4 * (2 + box.margin))) - 0.001 * height
     box.margin = ismobile ? ((box.width / 3) - (hexsize * 2)) / hexsize : box.margin
     box.width = ismobile ? (3 * (hexsize * 2 + box.margin * hexsize)) : box.width,
-    box.aspect = ismobile ? 0.2 * box.width / box.height : 1
+    box.aspect = ismobile ? 0.5 * box.width / box.height : 1
   }
   box.left = ismobile ? (wrapper.clientWidth - (box.width)) / 2 + box.margin * hexsize / 2: box.left
 

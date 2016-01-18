@@ -38,7 +38,7 @@ module.exports = function (id, set) {
     game.hide()
     side.show()
   })
-
+  
   levels.events.on('click', function (selection) {
     levels.hide()
     setTimeout(function () {

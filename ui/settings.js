@@ -22,9 +22,10 @@ module.exports = function(container, state) {
   var colors = {
     text1: 'rgb(150,150,150)',
     text2: 'rgb(220,220,220)',
-    backStroke: 'rgb(120,120,120)',
+    stroke: 'rgb(40,40,40)',
+    fill: 'rgb(40,40,40)',
     buttonStroke: 'none',
-    buttonFill: 'rgb(10,10,10)',
+    buttonFill: 'rgb(40,40,40)',
     buttonFillSelect: 'rgb(120,120,120)'
   }
 
@@ -50,8 +51,8 @@ module.exports = function(container, state) {
   var width = window.innerWidth
   var offset = ismobile ? 0 : Math.PI / 6
   var points = _.range(7).map(function (i) {
-    var dx = 0.8 * height * Math.cos(i * 2 * Math.PI / 6 + offset) + height * 0.5
-    var dy = 0.8 * height * Math.sin(i * 2 * Math.PI / 6 + offset) + height * 0.4
+    var dx = 0.8 * height * Math.cos(i * 2 * Math.PI / 6 + offset) + (ismobile ? height * 0.5 : width * 0.75 - menuwidth * 0.75)
+    var dy = 0.8 * height * Math.sin(i * 2 * Math.PI / 6 + offset) + (ismobile ? height * 0.375 : height * 0.4)
     return [dx, dy]
   })
   if (ismobile) {
@@ -61,22 +62,24 @@ module.exports = function(container, state) {
   }
 
   var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-  svg.setAttribute('width', height * 1.2)
+  svg.setAttribute('width', ismobile ? height * 1.2 : width * 1.25)
   svg.setAttribute('height', height * 1.2)
   css(svg, {
     position: 'absolute',
     display: 'block',
     pointerEvents: 'none',
     position: 'fixed',
-    bottom: ismobile ? height * 0.05 : -height * 0.035,
+    bottom: ismobile ? height * 0 : -height * 0.035,
     pointerEvents: 'none',
-    right: ismobile ? -height * 0.15 : width * 0.5 - menuwidth * 0.5 * 0.8
+    right: ismobile ? -height * 0.15 : 0
   })
   wrapper.appendChild(svg)
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+  if (ismobile) points = points.concat([points[2], [width + 500, height + 1000], [0, height + 1000]])
+  if (!ismobile) points = [points[2], [width + 500, height + 500], [width + 500, 0]].concat(points)
   hex.setAttribute('points', points.join(' '))
-  css(hex, {fill: 'none', stroke: colors.backStroke, strokeWidth: 5})
+  css(hex, {fill: colors.fill, stroke: colors.stroke, strokeWidth: 5})
   svg.appendChild(hex)
 
   var settings = document.createElement('div')
@@ -104,7 +107,7 @@ module.exports = function(container, state) {
     css(item, {marginBottom: ismobile ? size * 0.05 : size * 0.02})
     options.appendChild(item)
 
-    var iconsize = ismobile ? size * 0.09 : size * 0.035
+    var iconsize = ismobile ? size * 0.1 : size * 0.038
 
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     svg.setAttribute('width', iconsize * 4.2)

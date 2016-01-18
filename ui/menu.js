@@ -50,8 +50,8 @@ module.exports = function(container) {
 
   var hex = document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
   hex.setAttribute("points", points.join(' '))
-  hex.style.fill = 'none'
-  hex.style.stroke = 'rgb(150,150,150)'
+  hex.style.fill = 'rgb(40,40,40)'
+  hex.style.stroke = 'rgb(40,40,40)'
   hex.style.strokeWidth = 4
   hex.style.strokeLinejoin = 'round'
   hex.style.transformOrigin = 'center'
