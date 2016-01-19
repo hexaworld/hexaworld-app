@@ -36,16 +36,15 @@ module.exports = function (id, set) {
     if (selection === 'levels') levels.show()
     menu.hide()
     game.hide()
+    console.log('hiding game')
     side.show()
   })
-  
+
   levels.events.on('click', function (selection) {
     levels.hide()
     setTimeout(function () {
+      game.show()
       game.reload(set[selection])
-      setTimeout(function () {
-        game.show()
-      }, 50)
     }, 150)
   })
 

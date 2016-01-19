@@ -23,29 +23,12 @@ module.exports = function(container, level) {
     },
 
     hide: function() {
-      css(wrapper, {pointerEvents: 'none'})
+      css(wrapper, {opacity: 0, pointerEvents: 'none'})
       play.pause()
-      if (wrapper.style.opacity == 1) {
-        animate({
-          el: wrapper,
-          opacity: [1, 0],
-          duration: 200,
-          easing: 'easeInQuad'
-        })
-      }
     },
 
     show: function() {
-      animate({
-        el: wrapper,
-        opacity: [0, 1],
-        duration: 200,
-        easing: 'easeInQuad',
-        complete: function () {
-          play.resume()
-          css(wrapper, {pointerEvents: 'all'})
-        }
-      })
+      css(wrapper, {opacity: 1, pointerEvents: 'all'})
     }
   }
 }

@@ -32,7 +32,7 @@ module.exports = function(container, set) {
   container.appendChild(wrapper)
   wrapper.id = 'levels'
   css(wrapper, {
-    width: ismobile ? '96%' : '85%',
+    width: ismobile ? '96%' : '92%',
     height: ismobile ? '94%' : '100%',
     top: ismobile ? '6%' : '0%',
     left: 0, right: 0,
